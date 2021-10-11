@@ -4,7 +4,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="public/styles.css" rel="stylesheet">
     </head>
-    <body>
-       
+    <body class="w-screen h-screen py-8 py-8 bg-red-600">
+        <div class="container mx-auto w-6/12 h-full px-12">
+            <div class="flex flex-row items-start absolute top-12 w-5/12 h-22">
+                <img src="assets/absa_logo-Slice 1.jpg">
+                <p class="font-sans text-6xl ml-7"><span class="font-bold">Password</span> vault</p>
+            </div>
+            <div class="absolute top-40 w-5/12 px-4">
+                <p class="text-2xl text-center">Log in or create a new account to access
+                    your secure vault</p>
+            </div>
+            <div class="bg-white absolute top-64 w-5/12 h-80 px-4 pt-4">
+                <div class=" flex flex-col justify-between h-16">
+                    <p>Email address</p>
+                    <input class="border-black border-2 border-opacity-50 w-80" type="text" />
+                </div>
+                <div class=" flex flex-col justify-between h-16 mt-4">
+                    <p>Master password</p>
+                    <input class="border-black border-2 border-opacity-50 w-80" type="text" />
+                </div>
+                <a class="mt-2 text-sm" href="#">Get master password hint</a>
+                <hr class="mt-12">
+                <div class="flex fle-row justify-between mt-8 mb-8">
+                    <button class="bg-red-600 text-white w-56 p-1">Log in</button>
+                    <button class="border-black border-2 border-opacity-25 w-56 p-1">Cancel</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
