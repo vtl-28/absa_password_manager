@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="public/styles.css" rel="stylesheet">
+        <title>Home</title>
+    </head>
+    <body class="w-screen h-screen py-8 ">
+        <div class="container w-9/12 h-full mx-auto">
+            <h1 class="text-2xl">Welcome, Vuyisile</h1>
+            <div class="grid h-full grid-cols-10 grid-rows-4 gap-10 pt-10">
+                <div class="flex flex-col col-span-3 row-span-3 bg-white border border-black border-opacity-30">
+                    <div class="flex items-center h-12 bg-gray-300 bg-opacity-50 border-b-2 border-gray-300">
+                        <h1 class="ml-5 text-lg font-semibold uppercase">Filters</h1>
+                    </div>
+                    <input class="w-10/12 pl-3 mx-5 mt-6 border-2 border-black border-opacity-10" placeholder="Search Vault">
+                    <div class="px-5 mt-10">
+                        <h1 class="mb-3 font-semibold">Types</h1>
+                        <ul class="">
+                            <li><a class="uppercase" href="#">d_absa</a></li>
+                            <li><a href="#">Sessions</a></li>
+                            <li><a class="uppercase" href="#">sap</a></li>
+                            <li><a href="#">Client</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-span-7 row-span-3 bg-white "> 
+                    <div class="flex justify-between">
+                        <h1 class="text-2xl font-semibold">My Vault</h1>
+                        <button class="p-1 font-semibold text-red-600 bg-gray-100 border border-black border-opacity-10 hover:bg-red-600 hover:text-white w-36"><a>Add item</a></button>
+                    </div>
+                    <hr class="mt-1">
+                    <div class="flex flex-col justify-between h-20 mt-4">
+                        <p>There are no items to list</p>
+                        <button class="p-1 font-semibold text-red-600 bg-gray-100 border border-black border-opacity-10 hover:bg-red-600 hover:text-white w-36"><a>Add item</a></button>
+                    </div>
+                </div>
+                
+            </div>
+          
+        </div>
+    </body>
+</html>
