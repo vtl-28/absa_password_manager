@@ -27,16 +27,99 @@
                 <div class="col-span-7 row-span-3 bg-white "> 
                     <div class="flex justify-between">
                         <h1 class="text-2xl font-semibold">My Vault</h1>
-                        <button class="p-1 font-semibold text-red-600 bg-gray-100 border border-black border-opacity-10 hover:bg-red-600 hover:text-white w-36"><a href="add_password.html">Add item</a></button>
+                        <button class="p-1 font-semibold text-red-600 bg-gray-100 border border-black border-opacity-10 hover:bg-red-600 hover:text-white w-36"><a id="add_password_one">Add item</a></button>
                     </div>
                     <hr class="mt-1">
                     <div class="flex flex-col justify-between h-20 mt-4">
                         <p>There are no items to list</p>
-                        <button class="p-1 font-semibold text-red-600 bg-gray-100 border border-black border-opacity-10 hover:bg-red-600 hover:text-white w-36"><a href="add_password.html">Add item</a></button>
+                        <button class="p-1 font-semibold text-red-600 bg-gray-100 border border-black border-opacity-10 hover:bg-red-600 hover:text-white w-36"><a id="add_password_two">Add item</a></button>
                     </div>
                 </div>
                 
             </div>
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div class="fixed inset-0 z-10 invisible overflow-y-auto" id="modal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+              <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <!--
+                  Background overlay, show/hide based on modal state.
+            
+                  Entering: "ease-out duration-300"
+                    From: "opacity-0"
+                    To: "opacity-100"
+                  Leaving: "ease-in duration-200"
+                    From: "opacity-100"
+                    To: "opacity-0"
+                -->
+                <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+            
+                <!-- This element is to trick the browser into centering the modal contents. -->
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+                <!--
+                  Modal panel, show/hide based on modal state.
+            
+                  Entering: "ease-out duration-300"
+                    From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    To: "opacity-100 translate-y-0 sm:scale-100"
+                  Leaving: "ease-in duration-200"
+                    From: "opacity-100 translate-y-0 sm:scale-100"
+                    To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                -->
+                <div class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                 <div class="flex flex-col">
+                     <div class="flex flex-row justify-between px-6 py-6 bg-gray-200">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 uppercase" id="modal-title">
+                          Add item
+                        </h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                     </div>
+                     <div class="container w-7/12 h-full pt-8 pb-12 mx-auto">
+                          <form>
+                              <label>Name</label>
+                              <input class="w-full mb-2 border-2 border-black border-opacity-10">
+                              <label>Username</label>
+                              <input class="w-full mb-2 border-2 border-black border-opacity-10">
+                              <label>Password</label>
+                              <input class="w-full mb-2 border-2 border-black border-opacity-10">
+                              <label>Confirm password</label>
+                              <input class="w-full mb-2 border-2 border-black border-opacity-10">
+                              <div class="flex flex-row justify-around mt-4">
+                                  <button class="p-1 font-semibold text-white bg-red-600 hover:bg-red-700 w-28"><a>Save</a></button>
+                                  <button class="p-1 font-semibold border-2 border-black border-opacity-25 hover:bg-gray-400 opacity-60 w-28" id="modal_cancel"><a>Cancel</a></button>
+                              </div>
+                          </form>
+                     </div>
+          
+                 </div>
+                  
+                </div>
+              </div>
+            </div>
+  
         </div>
+        <script>
+            let add_password_btn_two = document.querySelector("button a#add_password_two");
+            add_password_btn_two.addEventListener("click", () => {
+               let modal = document.querySelector("#modal");
+               modal.classList.remove("invisible");
+               console.log(modal.classList);
+            });
+                let modal_cancel = document.querySelector("#modal #modal_cancel");
+                modal_cancel.addEventListener("click", () => {
+                    let modal = document.querySelector("#modal");
+                    modal.classList.add("invisible");
+                    console.log(modal.classList);
+                });
+
+                let add_password_btn_one = document.querySelector("button a#add_password_one");
+                add_password_btn_one.addEventListener("click", () => {
+               let modal = document.querySelector("#modal");
+               modal.classList.remove("invisible");
+               console.log(modal.classList);
+            });
+               
+        </script>
     </body>
 </html>
