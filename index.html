@@ -5,36 +5,35 @@
         <link href="public/styles.css" rel="stylesheet">
         <title>Home</title>
     </head>
-    <body class="w-screen h-screen py-8 bg-gray-200">
-        <div class="container w-4/12 h-full px-12 mx-auto">
-            <div class="absolute flex flex-row items-start w-3/12 top-12 h-22">
-                <img src="assets/absa logo.jpg" class="ml-6">
-                <p class="ml-4 font-sans text-3xl"><span class="font-bold">Password</span> vault</p>
-            </div>
-            <div class="absolute w-3/12 top-32">
-                <p class="text-xl text-center">Log in or create a new account to access
-                    your secure vault</p>
-            </div>
-            <div class="absolute w-3/12 px-4 pt-4 bg-white top-52">
-                <div class="flex flex-col h-16 ">
-                    <p class="font-semibold">Email address</p>
-                    <input class="border-2 border-black border-opacity-10" type="text" />
+    <body class="w-screen h-screen pt-16 bg-gray-200">
+        <div class="container w-full h-full px-12 mx-auto">
+            <div class="grid h-full grid-cols-5 grid-rows-3 sm:grid-cols-10 md:grid-cols-12">
+                <div class="flex items-start h-16 col-span-3 col-start-2 sm:col-start-3 sm:col-span-6 md:col-start-4 md:justify-center justify-evenly">
+                    <img src="assets/absa logo.jpg" class="">
+                    <p class="font-sans text-2xl sm:text-3xl md:text-4xl md:ml-4"><span class="font-bold">Password</span> vault</p>
                 </div>
-                <div class="flex flex-col">
-                    <p class="font-semibold">Master password</p>
-                    <input class="border-2 border-black border-opacity-10" type="text" />
+                <div class="flex h-16 col-span-3 col-start-2 -mt-28 sm:col-start-3 sm:col-span-6 md:col-start-4 xl:col-start-5 xl:col-span-4">
+                    <p class="text-base text-center sm:text-lg md:text-xl">Log in or create a new account to access
+                        your secure vault</p>
                 </div>
-                <a class="text-sm text-red-600 hover:underline" href="password_hint.html">Get master password hint</a>
-                <hr class="mt-8">
-                <div class="flex flex-row justify-between mt-4 mb-4">
-                    <div>
-                        <button class="w-32 p-1 font-semibold text-white bg-red-600 hover:bg-red-700"><a href="vault_landing_page.html">Log in</a></button>
-                    </div>
-                    <div>
-                        <button class="p-1 font-semibold border-2 border-black border-opacity-25 hover:bg-gray-400 opacity-60 w-36"><a href="register.html">Create account</a></button>
+                <div class="col-span-3 col-start-2 mb-4 border -mt-52 h-60 sm:col-start-3 sm:col-span-6 md:col-start-4 xl:col-start-5 xl:col-span-4">                    
+                    <div class="p-4 bg-white">                        
+                        <form>
+                            <label class="font-semibold">Email Address</label>
+                            <input class="w-full mb-4 border-2 border-black border-opacity-10">
+                            <label class="font-semibold">Master password</label>
+                            <input class="w-full border-2 border-black border-opacity-10">
+                            <a class="text-sm text-red-600 hover:underline" href="password_hint.html">Get master password hint</a>
+                            <hr class="mt-8">
+                            <div class="flex flex-row justify-between mt-4">
+                                <button class="w-24 p-1 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 sm:w-36 sm:text-base lg:w-48 xl:w-44">Log in</button>
+                                <button class="p-1 text-sm font-semibold border-2 border-black border-opacity-25 hover:bg-gray-400 opacity-60 sm:w-36 sm:text-base lg:w-48 xl:w-44" id="modal_cancel">Create account</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+            
         </div>
     </body>
 </html>
