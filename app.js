@@ -39,10 +39,14 @@ app.set("port", process.env.PORT || 3000);
 app.use(cookie_parser('geeksforgeeks'));
 app.use(express_session({
     secret:'geeksforgeeks',
-    saveUninitialized: true,
-    resave: true
+    saveUninitialized: false,
+    resave: false
 }));
 app.use(connect_flash());
+// app.use((req, res, next) => {
+//     res.locals.flash_messages = req.flash();
+//     next();
+// });
 
 
 app.get('/', index);

@@ -4,7 +4,7 @@ const { validationResult } = require('express-validator');
 
 module.exports = {
     new_user: (req, res) => {
-         res.render('register.ejs');
+         res.render('register.ejs', { error: req.flash('error')});
     },
     create_user: (req, res, next) => {
         const errors = validationResult(req);
@@ -19,12 +19,15 @@ module.exports = {
             master_password_hint: req.body.master_password_hint
         }
         User.create(user_params).then(user => {
+            req.flash('success', `${user.name}'s successfully created`);
             res.locals.redirect = '/';
             console.log(`User ${user.name} successfully created`);
             next();
         }).catch(error => {
-            res.locals.redirect = '/'
-            console.log(`${error.message}`);
+            req.flash('error', `Failed to create user account because ${error.message}`);
+            res.locals.redirect = '/user/new'
+            console.log(`Error saving user: ${error.message}`);
+            
         })
     },
     edit_user: (req, res) => {
