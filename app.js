@@ -1,19 +1,19 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const { body, check} = require('express-validator');
+const express_session = require('express-session');
+const cookie_parser = require('cookie-parser');
+const connect_flash = require('connect-flash');
 
 const { index } = require('./controllers/home_controller');
 const { new_user, create_user, edit_user, update_user, delete_user, redirect_user_view} 
     = require('./controllers/user_controller');
 const User = require('./models/user');
 // const method_override = require('method-override');
-// const express_session = require('express-session');
-// const cookie_parser = require('cookie-parser');
-// const connect_flash = require('connect-flash');
+
 // const passport = require('passport');
 // const local_strategy = require('passport-local').Strategy;
-const { body, check} = require('express-validator');
-const user = require('./models/user');
 
 mongoose.connect("mongodb://127.0.0.1:27017/password_vault", {
     useNewUrlParser: true
@@ -36,6 +36,15 @@ app.set("port", process.env.PORT || 3000);
 //       methods: ["POST", "GET"]
 //     })
 //   );
+app.use(cookie_parser('geeksforgeeks'));
+app.use(express_session({
+    secret:'geeksforgeeks',
+    saveUninitialized: true,
+    resave: true
+}));
+app.use(connect_flash());
+
+
 app.get('/', index);
 app.get('/user/new', new_user);
 app.post('/user/create', check('email').notEmpty().withMessage(
@@ -61,15 +70,15 @@ check('confirm_master_password').trim().notEmpty()
         throw new Error(`Master password confirmation does not match the master password`);
     }
     return true;
-}),create_user, redirect_user_view);
+}), create_user, redirect_user_view);
 
 
-app.get('/user/password_hint', (req, res) => {
-    res.render('password_hint.ejs');
-});
-app.get('/user/vault_landing_page', (req, res) => {
-    res.render('vault_landing_page.ejs');
-});
+// app.get('/user/password_hint', (req, res) => {
+//     res.render('password_hint.ejs');
+// });
+// app.get('/user/vault_landing_page', (req, res) => {
+//     res.render('vault_landing_page.ejs');
+// });
 
 app.listen(app.get('port'), () => {
     console.log(`The server has started and is listening on port number: ${app.get('port')}`);

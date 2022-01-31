@@ -1,10 +1,17 @@
 const User = require('../models/user');
+const { validationResult } = require('express-validator');
+
 
 module.exports = {
     new_user: (req, res) => {
          res.render('register.ejs');
     },
     create_user: (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+          };
+
         let user_params = {
             email: req.body.email,
             name: req.body.name,
@@ -16,6 +23,7 @@ module.exports = {
             console.log(`User ${user.name} successfully created`);
             next();
         }).catch(error => {
+            res.locals.redirect = '/'
             console.log(`${error.message}`);
         })
     },
