@@ -8,6 +8,10 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/custom-forms')
+    require('@tailwindcss/custom-forms'),
+    require('@themesberg/flowbite/plugin')
   ],
+  content: [
+    "./node_modules/@themesberg/flowbite/dist/flowbite.bundle.js"
+  ]
 }
