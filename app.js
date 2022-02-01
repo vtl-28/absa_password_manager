@@ -51,7 +51,7 @@ app.use(connect_flash());
 
 app.get('/', index);
 app.get('/user/new', new_user);
-app.post('/user/create', check('email').notEmpty().withMessage(
+app.post('/user/create', check('email').not().isEmpty().withMessage(
     'Email is required').normalizeEmail().isEmail()
     .withMessage('Must be a valid email').custom((value, {req}) => {
         return User.findOne({email: value}).then(user => {
@@ -60,15 +60,15 @@ app.post('/user/create', check('email').notEmpty().withMessage(
             }
         });
     }),
-check('name').trim().notEmpty().withMessage('Name is required')
-.isAlpha().withMessage('Must be only alphabetic characters'),
-check('master_password').trim().notEmpty().withMessage('Master password is required')
+check('name').trim().not().isEmpty().withMessage('Name is required')
+.isAlpha().withMessage('Name must be only alphabetic characters'),
+check('master_password').trim().not().isEmpty().withMessage('Master password is required')
 .isLength({min: 5}).withMessage('Master password must have a minimum of 5 characters')
-.matches(/(?=.*?[A-Z])/).withMessage('At least one Uppercase')
-.matches(/(?=.*?[a-z])/).withMessage('At least one Lowercase')
-.matches(/(?=.*?[0-9])/).withMessage('At least one Number')
+.matches(/(?=.*?[A-Z])/).withMessage('Master password must have at least one Uppercase')
+.matches(/(?=.*?[a-z])/).withMessage('Master password must have at least one Lowercase')
+.matches(/(?=.*?[0-9])/).withMessage('Master password must have at least one Number')
 .not().matches(/^$|\s+/).withMessage('White space not allowed'),
-check('confirm_master_password').trim().notEmpty()
+check('confirm_master_password').trim().not().isEmpty()
 .withMessage('Master password confirmation required').custom((value, {req}) => {
     if(value !== req.body.master_password){
         throw new Error(`Master password confirmation does not match the master password`);
