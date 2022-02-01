@@ -10,21 +10,31 @@
             <div class="grid h-full grid-cols-12 grid-rows-6 ">
                 <div class="flex items-start justify-center h-8 col-span-6 col-start-4 sm:col-start-5 sm:col-span-4">
                     <h3 class="text-xl md:text-2xl">Create account</h3>
-                </div>
-                <% if(error.length > 0) { %>
-                    <p> <%= error %> </p>
-                    <%  } %>
+                </div>   
+                
                 <div class="h-full col-span-10 col-start-2 -mt-14 sm:col-start-3 sm:col-span-8 md:col-start-4 md:col-span-6 xl:col-start-5 xl:col-span-4">
                     <div class="p-4 bg-white">
+                        <% if(error.length > 0) { %>
+                            <div class="p-2 mb-2 text-sm text-center text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                <span class="font-medium"><%= error %></span>
+                              </div>
+                         <%  } %>
+                         <% if(validation_errors.length > 0) { %>
+                                <% for(let i = 0; i < validation_errors.length; i++){ %>
+                                    <div class="p-2 mb-2 text-sm text-center text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                        <%= validation_errors[i] %>
+                                    </div>
+                                  <%  } %>
+                         <%  } %>
                         <form class="" action="/user/create" method="POST">
                             <label for="" class="text-sm font-semibold">Email address</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="email">
-                            <!-- <p style="color: red;"><%=(typeof errors !='undefined' && typeof errors.email !='undefined' )? errors.email.msg:''%></p> -->
-                            <p class="text-xs text-gray-500 lg:mb-2">You'll use your email address to log in.</p>                           
+                             <!-- <p style="color: red;"><%=(typeof validation_errors !='undefined' && typeof validation_errors.email !='undefined' )? validation_errors.email:''%></p> -->
+                            <!-- <p class="text-xs text-gray-500 lg:mb-2">You'll use your email address to log in.</p>                            -->
                             <label for="" class="text-sm font-semibold">Your name</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="name">
                             <!-- <p style="color: red;"><%=(typeof errors !='undefined' && typeof errors.name !='undefined' )? errors.name.msg:''%></p> -->
-                            <p class="text-xs text-gray-500 lg:mb-2">What should we call you?</p>                           
+                            <!-- <p class="text-xs text-gray-500 lg:mb-2">What should we call you?</p>                            -->
                             <label for="" class="text-sm font-semibold">Master password</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="master_password">
                             <!-- <p style="color: red;"><%=(typeof errors !='undefined' && typeof errors.master_password !='undefined' )? errors.master_password.msg:''%></p> -->
@@ -45,5 +55,6 @@
                 </div>
             </div>
         </div>
+        
     </body>
 </html>
