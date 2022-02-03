@@ -12,9 +12,8 @@ const user_schema = Schema({
         type: String,
         trim: true
     },
-    master_password: {
-        type: String
-    },
+    hash: String,
+    salt: String,
     master_password_hint: {
         type: String,
     },
