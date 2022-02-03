@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const { validationResult } = require('express-validator');
-
+const gen_password = require('../lib/password_utils').genPassword;
 
 module.exports = {
     new_user: (req, res) => {
@@ -8,13 +8,7 @@ module.exports = {
          validation_errors: req.flash('validation_errors')});
     },
     create_user: (req, res, next) => {
-        let user_params = {
-            email: req.body.email,
-            name: req.body.name,
-            master_password: req.body.master_password,
-            confirm_master_password: req.body.confirm_master_password,
-            master_password_hint: req.body.master_password_hint
-        }
+        
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             let messages = errors.array().map(e => e.msg);
@@ -24,6 +18,18 @@ module.exports = {
             next();
             //return res.status(400).json({ errors: errors.array() });
           }else{
+            const salt_hash = gen_password(req.body.master_password);
+            const salt = salt_hash.salt;
+            const hash = salt_hash.hash;
+            let user_params = {
+                email: req.body.email,
+                name: req.body.name,
+                hash: hash,
+                salt: salt,
+                confirm_master_password: req.body.confirm_master_password,
+                master_password_hint: req.body.master_password_hint
+            }
+            
             User.create(user_params).then(user => {
                 req.flash('success', `${user.name} successfully created`);
                 res.locals.redirect = '/';
