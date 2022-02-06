@@ -5,15 +5,14 @@ const { body, check} = require('express-validator');
 const express_session = require('express-session');
 const cookie_parser = require('cookie-parser');
 const connect_flash = require('connect-flash');
-
+const passport = require('passport');
+const MongoStore = require('connect-mongo');
 const { index } = require('./controllers/home_controller');
 const { new_user, create_user, edit_user, update_user, delete_user, redirect_user_view} 
     = require('./controllers/user_controller');
 const User = require('./models/user');
+const { Strategy } = require('passport-local');
 // const method_override = require('method-override');
-
-// const passport = require('passport');
-// const local_strategy = require('passport-local').Strategy;
 
 mongoose.connect("mongodb://127.0.0.1:27017/password_vault", {
     useNewUrlParser: true
@@ -31,23 +30,34 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.set("port", process.env.PORT || 3000);
-// app.use(
-//     method_override("_method", {
-//       methods: ["POST", "GET"]
-//     })
-//   );
-app.use(cookie_parser('geeksforgeeks'));
+app.use(connect_flash());
+
 app.use(express_session({
     secret:'geeksforgeeks',
-    saveUninitialized: false,
-    resave: false
+    saveUninitialized: true,
+    resave: false,
+    store: MongoStore.create({
+        mongoUrl: "mongodb://127.0.0.1:27017/password_vault"
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 
+    }
 }));
-app.use(connect_flash());
-// app.use((req, res, next) => {
-//     res.locals.flash_messages = req.flash();
-//     next();
-// });
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use((req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    next();
+});
+function is_auth(req, res, next){
+    if(req.isAuthenticated()){
+        next();
+    } else{
+        res.status(401).json({ msg: 'You are not authorized to view this resource'});
+    }
+}
 
 app.get('/', index);
 app.get('/user/new', new_user);
@@ -75,14 +85,18 @@ check('confirm_master_password').trim().not().isEmpty()
     }
     return true;
 }), create_user, redirect_user_view);
+app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/',
+    successRedirect: '/login-success',
+    failureFlash: true
+}));
+app.get('/protected-route', is_auth, (req, res, next) => {
+    res.send('You made it to the route.');
+});
 
-
-// app.get('/user/password_hint', (req, res) => {
-//     res.render('password_hint.ejs');
-// });
-// app.get('/user/vault_landing_page', (req, res) => {
-//     res.render('vault_landing_page.ejs');
-// });
+app.get('/login-success', (req, res, next) => {
+    res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
+});
 
 app.listen(app.get('port'), () => {
     console.log(`The server has started and is listening on port number: ${app.get('port')}`);
