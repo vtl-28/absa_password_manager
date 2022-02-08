@@ -7,7 +7,10 @@
     </head>
     <body class="w-screen h-screen py-8 ">
         <div class="container w-9/12 h-full mx-auto">
-            <h1 class="text-2xl">Welcome, Vuyisile</h1>
+            <% if(authenticated_user){ %>
+                <h1 class="text-2xl">Welcome, <%= authenticated_user.name %></h1>
+            <%} %>
+            
             <div class="grid h-full grid-cols-10 grid-rows-4 gap-10 pt-10">
                 <div class="flex flex-col col-span-3 row-span-3 bg-white border border-black border-opacity-30">
                     <div class="flex items-center justify-center h-12 bg-gray-300 bg-opacity-50 border-b-2 border-gray-300">

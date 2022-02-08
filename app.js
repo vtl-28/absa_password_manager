@@ -7,7 +7,7 @@ const cookie_parser = require('cookie-parser');
 const connect_flash = require('connect-flash');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
-const { index } = require('./controllers/home_controller');
+const { index, vault } = require('./controllers/home_controller');
 const { new_user, create_user, edit_user, update_user, delete_user, redirect_user_view} 
     = require('./controllers/user_controller');
 const User = require('./models/user');
@@ -43,6 +43,8 @@ app.use(express_session({
         maxAge: 1000 * 60 * 60 * 24 
     }
 }));
+
+require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -53,6 +55,7 @@ app.use((req, res, next) => {
 });
 function is_auth(req, res, next){
     if(req.isAuthenticated()){
+        res.locals.authenticated_user = req.user;
         next();
     } else{
         res.status(401).json({ msg: 'You are not authorized to view this resource'});
@@ -85,18 +88,23 @@ check('confirm_master_password').trim().not().isEmpty()
     }
     return true;
 }), create_user, redirect_user_view);
+
 app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
-    successRedirect: '/login-success',
+    successRedirect: 'vault_landing_page',
     failureFlash: true
 }));
-app.get('/protected-route', is_auth, (req, res, next) => {
-    res.send('You made it to the route.');
-});
+app.get('/vault_landing_page', is_auth, vault);
+// app.get('/protected-route', is_auth, (req, res, next) => {
+//     res.send('You made it to the route.');
+// });
 
-app.get('/login-success', (req, res, next) => {
-    res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
-});
+// app.get('/login-success', (req, res, next) => {
+//     res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
+// });
+// app.get('/login-failure', (req, res, next) => {
+//     res.send('You entered the wrong password.');
+// });
 
 app.listen(app.get('port'), () => {
     console.log(`The server has started and is listening on port number: ${app.get('port')}`);
