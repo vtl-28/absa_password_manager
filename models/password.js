@@ -10,10 +10,8 @@ const password_schema = Schema({
         type: String,
         trim: true
     },
-    password: {
-        type: String,
-        trim: true
-    }
+    hash: String,
+    salt: String,
 });
 
 module.exports = mongoose.model('Password', password_schema);
