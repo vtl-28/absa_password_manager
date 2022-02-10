@@ -9,9 +9,11 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/custom-forms'),
-    require('@themesberg/flowbite/plugin')
+    require('@themesberg/flowbite/plugin'),
+    require('flowbite/plugin')
   ],
   content: [
-    "./node_modules/@themesberg/flowbite/dist/flowbite.bundle.js"
+    "./node_modules/@themesberg/flowbite/dist/flowbite.bundle.js",
+    "./node_modules/flowbite/**/*.js"
   ]
 }
