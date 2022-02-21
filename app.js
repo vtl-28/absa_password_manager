@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const path = require('path');
+const favicon = require('serve-favicon');
 const mongoose = require('mongoose');
 const { body, check} = require('express-validator');
 const express_session = require('express-session');
@@ -7,12 +9,15 @@ const cookie_parser = require('cookie-parser');
 const connect_flash = require('connect-flash');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
+
+
 const { index, vault } = require('./controllers/home_controller');
 const { new_user, create_user, edit_user, update_user, delete_user, redirect_user_view} 
     = require('./controllers/user_controller');
 const User = require('./models/user');
 const { Strategy } = require('passport-local');
-// const method_override = require('method-override');
+const { create } = require('./controllers/password_controller');
+const method_override = require('method-override');
 
 mongoose.connect("mongodb://127.0.0.1:27017/password_vault", {
     useNewUrlParser: true
@@ -22,8 +27,10 @@ db.once("open", () => {
     console.log("Successfully connected");
 });
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static('public'));
 app.use(express.static('assets'));
+app.use(express.static('node_modules'));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({
     extended:false
@@ -91,20 +98,11 @@ check('confirm_master_password').trim().not().isEmpty()
 
 app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
-    successRedirect: 'vault_landing_page',
+    successRedirect: '/vault_landing_page',
     failureFlash: true
 }));
-app.get('/vault_landing_page', is_auth, vault);
-// app.get('/protected-route', is_auth, (req, res, next) => {
-//     res.send('You made it to the route.');
-// });
-
-// app.get('/login-success', (req, res, next) => {
-//     res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
-// });
-// app.get('/login-failure', (req, res, next) => {
-//     res.send('You entered the wrong password.');
-// });
+app.get('/vault', is_auth, vault);
+app.post('/create_password', create);
 
 app.listen(app.get('port'), () => {
     console.log(`The server has started and is listening on port number: ${app.get('port')}`);
