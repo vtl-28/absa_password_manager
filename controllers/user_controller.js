@@ -43,11 +43,35 @@ module.exports = {
             })
           }
     },
-    edit_user: (req, res) => {
-        
+    edit_user: (req, res, next) => {
+        let user_id = req.params.id; 
+        User.findById(user_id).then(user => {
+            res.render('account', {
+                user: user
+            });
+        }).catch(error => {
+            console.log(`Error fetching user by ID: ${error.message}`);
+            next(error);
+        })
     },
-    update_user: (req, res) => {
-        
+    update_user: (req, res, next) => {
+        let user_id = req.params.id; 
+        let user_params = {
+            email: req.body.email,
+            name: req.body.name,
+            master_password_hint: req.body.master_password_hint
+        }
+        User.findByIdAndUpdate(user_id, {
+            $set: user_params
+        }).then(user => {
+            console.log(`${user.name}'s account
+            updated successfully!`);
+            res.locals.redirect = '/vault';
+            next();
+        }).catch(error => {
+            console.log(`Error updating user by ID: ${error.message}`);
+            next(error);
+        });
     },
     delete_user: (req, res) => {
         

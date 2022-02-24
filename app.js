@@ -39,6 +39,12 @@ app.use(express.json());
 app.set("port", process.env.PORT || 3000);
 app.use(connect_flash());
 
+app.use(
+    method_override("_method", {
+      methods: ["POST", "GET"]
+    })
+  );
+
 app.use(express_session({
     secret:'geeksforgeeks',
     saveUninitialized: true,
@@ -95,13 +101,15 @@ check('confirm_master_password').trim().not().isEmpty()
     }
     return true;
 }), create_user, redirect_user_view);
+app.get('/:id/edit_user', edit_user);
+app.put('/:id/update_user', update_user, redirect_user_view);
 
 app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     successRedirect: '/vault_landing_page',
     failureFlash: true
 }));
-app.get('/vault', is_auth, vault);
+app.get('/vault_landing_page', is_auth, vault);
 app.post('/create_password', create);
 
 app.listen(app.get('port'), () => {
