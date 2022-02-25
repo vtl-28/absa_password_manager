@@ -64,7 +64,7 @@ module.exports = {
         User.findByIdAndUpdate(user_id, {
             $set: user_params
         }).then(user => {
-            console.log(`${user.name}'s account
+            req.flash('update_success', `${user.name}'s account
             updated successfully!`);
             res.locals.redirect = '/vault_landing_page';
             next();

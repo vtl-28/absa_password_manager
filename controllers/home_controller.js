@@ -3,7 +3,7 @@ module.exports = {
         res.render('index', { success: req.flash('success')});
     },
     vault: (req, res, next) => {
-        res.render('vault_landing_page');
+        res.render('vault_landing_page', { update_success: req.flash('update_success')});
     }
 
 }
