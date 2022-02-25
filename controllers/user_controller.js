@@ -66,7 +66,7 @@ module.exports = {
         }).then(user => {
             console.log(`${user.name}'s account
             updated successfully!`);
-            res.locals.redirect = '/vault';
+            res.locals.redirect = '/vault_landing_page';
             next();
         }).catch(error => {
             console.log(`Error updating user by ID: ${error.message}`);
