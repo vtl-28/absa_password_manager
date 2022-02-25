@@ -11,7 +11,7 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 
 
-const { index, vault } = require('./controllers/home_controller');
+const { index, vault, logout } = require('./controllers/home_controller');
 const { new_user, create_user, edit_user, update_user, delete_user, redirect_user_view} 
     = require('./controllers/user_controller');
 const User = require('./models/user');
@@ -111,6 +111,7 @@ app.post('/login', passport.authenticate('local', {
 }));
 app.get('/vault_landing_page', is_auth, vault);
 app.post('/create_password', create);
+app.get('/logout', logout);
 
 app.listen(app.get('port'), () => {
     console.log(`The server has started and is listening on port number: ${app.get('port')}`);

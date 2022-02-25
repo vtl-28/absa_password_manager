@@ -4,6 +4,10 @@ module.exports = {
     },
     vault: (req, res, next) => {
         res.render('vault_landing_page', { update_success: req.flash('update_success')});
+    },
+    logout: (req, res, next) => {
+        req.logout();
+        res.redirect('/');
     }
 
 }
