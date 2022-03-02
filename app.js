@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -12,7 +13,7 @@ const MongoStore = require('connect-mongo');
 
 
 const { index, vault, logout } = require('./controllers/home_controller');
-const { new_user, create_user, edit_user, update_user, delete_user, redirect_user_view} 
+const { new_user, create_user, edit_user, update_user, password_hint_view, retrieve_password_hint, redirect_user_view} 
     = require('./controllers/user_controller');
 const User = require('./models/user');
 const { Strategy } = require('passport-local');
@@ -109,6 +110,9 @@ app.post('/login', passport.authenticate('local', {
     successRedirect: '/vault_landing_page',
     failureFlash: true
 }));
+app.get('/password_hint', password_hint_view);
+app.post('/password_hint', retrieve_password_hint, redirect_user_view);
+
 app.get('/vault_landing_page', is_auth, vault);
 app.post('/create_password', create);
 app.get('/logout', logout);

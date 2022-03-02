@@ -1,6 +1,9 @@
 const User = require('../models/user');
 const { validationResult } = require('express-validator');
 const gen_password = require('../lib/password_utils').genPassword;
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
+const OAuth2 = google.auth.OAuth2; 
 
 module.exports = {
     new_user: (req, res) => {
@@ -73,8 +76,81 @@ module.exports = {
             next(error);
         });
     },
-    delete_user: (req, res) => {
-        
+    password_hint_view: (req, res) => {
+        res.render('password_hint', {success: req.flash('success'), 
+        error: req.flash('error')});
+    },
+    retrieve_password_hint: (req, res, next) => {
+        let user_params = {
+            email: req.body.email
+        };
+
+        User.findOne(user_params).then(user => {
+            const create_transporter = async () => {
+                const oauth2_client = new OAuth2(
+                    process.env.OAUTH_CLIENTID,
+                    process.env.OAUTH_CLIENT_SECRET,
+                    "https://developers.google.com/oauthplayground"
+                  );
+            
+                  oauth2_client.setCredentials({
+                      refresh_token: process.env.OAUTH_REFRESH_TOKEN
+                  });
+            
+                  const access_token = await new Promise((resolve, reject) => {
+                      oauth2_client.getAccessToken((err, token) => {
+                          if(err){
+                              reject('Couldnt retrieve access token' + err);
+                          }
+                          resolve(token);
+                      });
+                  });
+            
+                  const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: process.env.MAIL_USERNAME,
+                        pass: process.env.MAIL_PASSWORD,
+                        access_token,
+                        clientId: process.env.OAUTH_CLIENTID,
+                        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                
+                    },
+                    tls: {
+                        // do not fail on invalid certs
+                        rejectUnauthorized: false
+                    }
+                });
+                transporter.verify((err, success) => {
+                err
+                  ? console.log(err)
+                  : console.log(`=== Server is ready to take messages: ${success} ===`);
+               });
+                return transporter;
+                  
+            };
+            
+            const send_email = async (email_options) => {
+                let email_transporter = await create_transporter();
+                await email_transporter.sendMail(email_options);
+            }
+            send_email({
+                from: 'test@gmail.com',
+                to: user.email,
+                subject: 'Master password hint',
+                text: `Your master password hint is ${user.master_password_hint}`
+            });
+            req.flash('success', 'Master password hint sent to your email');
+            res.locals.redirect = '/';
+            next();
+        }).catch(error => {
+            console.log(error);
+            req.flash('error', 'Failed to send master password hint to email');
+            res.locals.redirect = '/password_hint';
+            next();
+        });
     },
     redirect_user_view: (req, res, next) => {
         let redirect_path = res.locals.redirect;
