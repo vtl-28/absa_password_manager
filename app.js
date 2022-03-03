@@ -17,7 +17,7 @@ const { new_user, create_user, edit_user, update_user, password_hint_view, retri
     = require('./controllers/user_controller');
 const User = require('./models/user');
 const { Strategy } = require('passport-local');
-const { create } = require('./controllers/password_controller');
+const { create, redirect_password_view } = require('./controllers/password_controller');
 const method_override = require('method-override');
 
 mongoose.connect("mongodb://127.0.0.1:27017/password_vault", {
@@ -114,7 +114,7 @@ app.get('/password_hint', password_hint_view);
 app.post('/password_hint', retrieve_password_hint, redirect_user_view);
 
 app.get('/vault_landing_page', is_auth, vault);
-app.post('/create_password', create);
+app.post('/create_password', create, redirect_password_view);
 app.get('/logout', logout);
 
 app.listen(app.get('port'), () => {
