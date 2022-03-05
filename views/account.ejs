@@ -10,7 +10,6 @@
         <div class="container w-9/12 h-full mx-auto">
             <h1 class="mb-1 text-2xl">My account</h1>
             <hr>
-
             <form class="flex flex-col py-4" action="<%= `/${user._id}/update_user?_method=PUT` %>" method="POST">
                 <label for="" class="text-sm font-semibold ">Email address</label>
                 <input class="w-4/12 mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="email" type="email" value="<%=user.email %>">
