@@ -4,7 +4,8 @@ module.exports = {
         message: req.flash('error')});
     },
     vault: (req, res, next) => {
-        res.render('vault_landing_page', { update_success: req.flash('update_success')});
+        res.render('vault_landing_page', { update_success: req.flash('update_success'), 
+        add_password_success: req.flash('add_password_success')});
     },
     logout: (req, res, next) => {
         req.logout();

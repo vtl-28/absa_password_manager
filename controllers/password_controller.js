@@ -16,6 +16,7 @@ module.exports = {
 
         Password.create(password_params).then(password => {
             res.locals.redirect = '/vault_landing_page';
+            req.flash('add_password_success', `${password.application_name}'s password successfully created`)
             console.log(`${password.application_name}'s password successfully created`);
             next();
         }).catch(error => {
@@ -28,6 +29,17 @@ module.exports = {
     },
     delete_password: (req, res, next) => {
         
+    },
+    show_application_password: (req, res, next) => {
+        Password.findOne({}).then(app_password => {
+            res.locals.application_password = app_password;
+            console.log(`Application password found ${app_password}`);
+            next();
+
+        }).catch(error => {
+            console.log(`Error finding application password: ${error.message}`);
+            next();
+        });
     },
     redirect_password_view: (req, res, next) => {
         let redirect_path = res.locals.redirect;
