@@ -114,7 +114,15 @@ app.post('/login', passport.authenticate('local', {
     failureFlash: true
 }));
 app.get('/password_hint', password_hint_view);
-app.post('/password_hint', retrieve_password_hint, redirect_user_view);
+app.post('/password_hint', check('email').not().isEmpty().withMessage(
+    'Email is required').normalizeEmail().isEmail()
+    .withMessage('Must be a valid email').custom((value, {req}) => {
+        return User.findOne({email: value}).then(user => {
+            if(!user){
+                throw new Error('User does not exist');
+            }
+        });
+    }),retrieve_password_hint, redirect_user_view);
 
 app.get('/vault_landing_page', is_auth, vault);
 app.post('/create_password', create, redirect_password_view, show_application_password);
