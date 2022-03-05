@@ -12,14 +12,14 @@ const verify_callback = (username, password, done) => {
     User.findOne({ email: username })
         .then((user) => {
 
-            if (!user) { return done(null, false) }
+            if (!user) { return done(null, false, {message: 'User does not exist'}) }
             
             const isValid = valid_password(password, user.hash, user.salt);
             
             if (isValid) {
                 return done(null, user);
             } else {
-                return done(null, false);
+                return done(null, false, {message: 'Invalid email or password entered'});
             }
         })
         .catch((err) => {   

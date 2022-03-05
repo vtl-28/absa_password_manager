@@ -18,14 +18,19 @@
                         your secure vault</p>
                 </div>
                 <div class="col-span-3 col-start-2 mb-4 border -mt-52 h-60 sm:col-start-3 sm:col-span-6 md:col-start-4 xl:col-start-5 xl:col-span-4">                    
-                    <div class="p-4 bg-white">  
+                    <div class="p-4 bg-white">
+                        <% if(message.length > 0) { %>
+                            <div class="p-2 mb-2 text-sm text-center text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                <span class="font-medium"><%= message %></span>
+                              </div>
+                         <%  } %>     
                         <% if(success.length > 0) { %>
                             <div class="p-2 mb-2 text-sm text-center text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
                                 <span class="font-medium"><%= success %></span>
                               </div>
-                            <%  } %>                      
+                        <%  } %>                      
                         <form action="/login" method="POST">
-                            <label class="font-semibold">Email Address</label>
+                        <label class="font-semibold">Email Address</label>
                             <input class="w-full mb-4 border-2 border-black border-opacity-10" name="email" type="email">
                             <label class="font-semibold">Master password</label>
                             <input class="w-full border-2 border-black border-opacity-10" name="master_password" type="password">

@@ -17,7 +17,7 @@ const { new_user, create_user, edit_user, update_user, password_hint_view, retri
     = require('./controllers/user_controller');
 const User = require('./models/user');
 const { Strategy } = require('passport-local');
-const { create, redirect_password_view } = require('./controllers/password_controller');
+const { create, redirect_password_view, show_application_password } = require('./controllers/password_controller');
 const method_override = require('method-override');
 
 mongoose.connect("mongodb://127.0.0.1:27017/password_vault", {
@@ -105,6 +105,9 @@ check('confirm_master_password').trim().not().isEmpty()
 app.get('/:id/edit_user', edit_user);
 app.put('/:id/update_user', update_user, redirect_user_view);
 
+// app.get('/login', (req, res) => {
+//     res.render('index', { message: req.flash('error')});
+// });
 app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     successRedirect: '/vault_landing_page',
@@ -114,7 +117,7 @@ app.get('/password_hint', password_hint_view);
 app.post('/password_hint', retrieve_password_hint, redirect_user_view);
 
 app.get('/vault_landing_page', is_auth, vault);
-app.post('/create_password', create, redirect_password_view);
+app.post('/create_password', create, redirect_password_view, show_application_password);
 app.get('/logout', logout);
 
 app.listen(app.get('port'), () => {
