@@ -58,15 +58,19 @@ app.use(express_session({
     }
 }));
 
+//require and let server know of passport strategy 
 require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+//middleware to print session details of authenticated user
 app.use((req, res, next) => {
     console.log(req.session);
     console.log(req.user);
     next();
 });
+
+//middleware to check if user is authenticated
 function is_auth(req, res, next){
     if(req.isAuthenticated()){
         res.locals.authenticated_user = req.user;
@@ -76,8 +80,11 @@ function is_auth(req, res, next){
     }
 }
 
+//route to access home page
 app.get('/', index);
+//route to access page to create new user
 app.get('/user/new', new_user);
+//route to create and validate new user
 app.post('/user/create', check('email').not().isEmpty().withMessage(
     'Email is required').normalizeEmail().isEmail()
     .withMessage('Must be a valid email').custom((value, {req}) => {
@@ -102,18 +109,20 @@ check('confirm_master_password').trim().not().isEmpty()
     }
     return true;
 }), create_user, redirect_user_view);
+//route to access page to edit user details
 app.get('/:id/edit_user', edit_user);
+//route to update details of existing user
 app.put('/:id/update_user', update_user, redirect_user_view);
 
-// app.get('/login', (req, res) => {
-//     res.render('index', { message: req.flash('error')});
-// });
+//route authenticate and login registered user
 app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     successRedirect: '/vault_landing_page',
     failureFlash: true
 }));
+//route to access page to retrieve user master password hint
 app.get('/password_hint', password_hint_view);
+//route to retrieve user master password hint
 app.post('/password_hint', check('email').not().isEmpty().withMessage(
     'Email is required').normalizeEmail().isEmail()
     .withMessage('Must be a valid email').custom((value, {req}) => {
@@ -124,8 +133,11 @@ app.post('/password_hint', check('email').not().isEmpty().withMessage(
         });
     }),retrieve_password_hint, redirect_user_view);
 
+//route to access vault of authenticated user
 app.get('/vault_landing_page', is_auth, vault);
-app.post('/create_password', create, redirect_password_view, show_application_password);
+//route to create and store an application password for user
+app.post('/create_password', create, redirect_password_view);
+//route to logout authenticated user
 app.get('/logout', logout);
 
 app.listen(app.get('port'), () => {

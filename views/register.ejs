@@ -41,20 +41,14 @@
                          <%  } %>
                         <form class="" action="/user/create" method="POST">
                             <label for="" class="text-sm font-semibold">Email address</label><br>
-                            <input class="w-full border-2 border-black border-opacity-10" name="email" type="email">
-                             <!-- <p style="color: red;"><%=(typeof validation_errors !='undefined' && typeof validation_errors.email !='undefined' )? validation_errors.email:''%></p> -->
-                            <!-- <p class="text-xs text-gray-500 lg:mb-2">You'll use your email address to log in.</p>                            -->
+                            <input class="w-full border-2 border-black border-opacity-10" name="email">
                             <label for="" class="text-sm font-semibold">Your name</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="name">
-                            <!-- <p style="color: red;"><%=(typeof errors !='undefined' && typeof errors.name !='undefined' )? errors.name.msg:''%></p> -->
-                            <!-- <p class="text-xs text-gray-500 lg:mb-2">What should we call you?</p>                            -->
                             <label for="" class="text-sm font-semibold">Master password</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="master_password" type="password">
-                            <!-- <p style="color: red;"><%=(typeof errors !='undefined' && typeof errors.master_password !='undefined' )? errors.master_password.msg:''%></p> -->
                             <p class="text-xs text-gray-500 lg:mb-2">The master password is the password you use to access your vault. It is very important that you do not forget your master password. There is no way to recover the password in the event that you forget it.</p>                           
                             <label for="" class="text-sm font-semibold">Re-type master password</label><br>
                             <input class="w-full mb-2 border-2 border-black border-opacity-10" name="confirm_master_password" type="password"><br>
-                            <!-- <p style="color: red;"><%=(typeof errors !='undefined' && typeof errors.confirm_master_password !='undefined' )? errors.confirm_master_password.msg:''%></p> -->
                             <label for="" class="text-sm font-semibold">Master password hint(optional)</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="master_password_hint">
                             <p class="text-xs text-gray-500 lg:mb-2">A master password hint can help you remember your password if you forget it.</p>

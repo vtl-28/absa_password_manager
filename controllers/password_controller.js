@@ -2,6 +2,7 @@ const Password = require('../models/password');
 const gen_password = require('../lib/password_utils').genPassword;
 
 module.exports = {
+    //handler to create and store user application password
     create: (req, res, next) => {
         const salt_hash = gen_password(req.body.password);
         const salt = salt_hash.salt;
@@ -41,6 +42,7 @@ module.exports = {
             next();
         });
     },
+    //handler to redirect to appropriate page
     redirect_password_view: (req, res, next) => {
         let redirect_path = res.locals.redirect;
         if(redirect_path) res.redirect(redirect_path);

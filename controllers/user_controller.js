@@ -6,10 +6,12 @@ const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2; 
 
 module.exports = {
+    //handler to access page to register user
     new_user: (req, res) => {
          res.render('register', { error: req.flash('error'), 
          validation_errors: req.flash('validation_errors')});
     },
+    //handler to create and register a new user
     create_user: (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -18,7 +20,6 @@ module.exports = {
             req.flash('validation_errors', messages);
             res.locals.redirect = '/user/new';
             next();
-            //return res.status(400).json({ errors: errors.array() });
           }else{
             const salt_hash = gen_password(req.body.master_password);
             const salt = salt_hash.salt;
@@ -45,6 +46,7 @@ module.exports = {
             })
           }
     },
+    //handler to access page to update details of user
     edit_user: (req, res, next) => {
         let user_id = req.params.id; 
         User.findById(user_id).then(user => {
@@ -56,6 +58,7 @@ module.exports = {
             next(error);
         })
     },
+    //handler to update details of user
     update_user: (req, res, next) => {
         let user_id = req.params.id; 
         let user_params = {
@@ -75,10 +78,12 @@ module.exports = {
             next(error);
         });
     },
+    //handler to access page to retrieve user master password hint
     password_hint_view: (req, res) => {
         res.render('password_hint', {success: req.flash('success'), 
         error: req.flash('error'), retrieve_password_hint_errors: req.flash('retrieve_password_hint_errors')});
     },
+    //handler to retrieve user master password hint
     retrieve_password_hint: (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -160,6 +165,7 @@ module.exports = {
             });
           }
     },
+    //handler to redirect to appropriate page
     redirect_user_view: (req, res, next) => {
         let redirect_path = res.locals.redirect;
         if(redirect_path) res.redirect(redirect_path);
