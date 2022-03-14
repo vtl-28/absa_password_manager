@@ -4,6 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="/styles.css" rel="stylesheet">
         <link href="/favicon.ico" rel="icon" type="image/x-icon">
+        <script src="https://kit.fontawesome.com/975b0e983d.js" crossorigin="anonymous"></script>
         <title>My vault</title>
     </head>
     <body class="w-screen h-screen py-8 ">
@@ -58,8 +59,8 @@
           
             
             <div class="grid h-full grid-cols-10 grid-rows-4 gap-10 pt-10">
-                <div class="flex flex-col col-span-3 row-span-3 bg-white border border-black border-opacity-30">
-                    <div class="flex items-center justify-center h-12 bg-gray-300 bg-opacity-50 border-b-2 border-gray-300">
+                <div class="flex flex-col col-span-3 row-span-3 bg-white border border-opacity-100 rounded border-gray">
+                    <div class="flex items-center justify-center h-12 bg-gray-100 bg-opacity-50 border-b-2 border-gray-300">
                         <h1 class="font-semibold uppercase ">Filters</h1>
                     </div>
                     <input class="pl-1 mt-6 text-xs border-2 border-black h-7 border-opacity-10 sm:text-center md:mx-2 md:text-base" placeholder="Search Vault">
@@ -76,8 +77,8 @@
                 <div class="col-span-7 row-span-3 bg-white "> 
                     <div class="flex justify-between">
                         <h1 class="text-xl font-semibold sm:text-2xl">My Vault</h1>
-                            <button class="w-24 p-1 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 sm:w-36 sm:text-base" type="button" data-modal-toggle="authentication-modal">
-                            Add item
+                            <button class="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" data-modal-toggle="authentication-modal">
+                                <i class="fa-solid fa-plus"></i>Add item
                             </button>
                             
                             <div id="authentication-modal" aria-hidden="true" class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 h-modal md:h-full md:inset-0">
@@ -113,7 +114,24 @@
                                 <ul>
                                     <% let pass = Object.values(app_pass) %>
                                     <% pass.forEach(p => { %>
-                                        <li class="p-2 text-2xl hover:bg-gray-100"><a href="#" class="hover:underline"><%= p.application_name %></a></li>
+                                        <li class="flex justify-between p-2 text-2xl hover:bg-gray-100">
+                                            <a href="#" class="text-red-600 hover:underline hover:decoration-red-600"><%= p.application_name %></a>
+                                            <button id="dropdownSettingsButton" data-dropdown-toggle="dropdownSettings" data-dropdown-placement="bottom-end" class="flex" type="button">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <i class="fa-solid fa-angle-down"></i>
+                                            </button>
+                            
+                                            <div id="dropdownSettings" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                <ul class="py-1" aria-labelledby="dropdownSettingsButton">
+                                                    <li>
+                                                        <a href="#" class="block px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><i class="fa-regular fa-copy"></i>Copy username</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="py-1">
+                                                     <a href="#" class="block px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><i class="fa-regular fa-copy"></i>Copy password</a>
+                                                </div>
+                                            </div>
+                                        </li>
                                     <% })%>
                                 </ul>
                     
