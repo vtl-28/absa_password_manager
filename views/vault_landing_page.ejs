@@ -109,7 +109,15 @@
                     </div>
                     <hr class="mt-1">
                     <div class="flex flex-col justify-between h-20 mt-4">
-                        <p>There are no items to list</p>
+                     
+                                <ul>
+                                    <% let pass = Object.values(app_pass) %>
+                                    <% pass.forEach(p => { %>
+                                        <li class="p-2 text-2xl hover:bg-gray-100"><a href="#" class="hover:underline"><%= p.application_name %></a></li>
+                                    <% })%>
+                                </ul>
+                    
+                       
                     </div>
                 </div>
                 

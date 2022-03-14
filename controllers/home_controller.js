@@ -7,7 +7,7 @@ module.exports = {
     //handler to access vault of authenticated user
     vault: (req, res, next) => {
         res.render('vault_landing_page', { update_success: req.flash('update_success'), 
-        add_password_success: req.flash('add_password_success')});
+        add_password_success: req.flash('add_password_success'), app_pass: req.session.flash['app_pass']});
     },
     //handler to logout authenticated user
     logout: (req, res, next) => {

@@ -136,7 +136,7 @@ app.post('/password_hint', check('email').not().isEmpty().withMessage(
 //route to access vault of authenticated user
 app.get('/vault_landing_page', is_auth, vault);
 //route to create and store an application password for user
-app.post('/create_password', create, redirect_password_view);
+app.post('/create_password', create,redirect_password_view);
 //route to logout authenticated user
 app.get('/logout', logout);
 

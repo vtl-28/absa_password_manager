@@ -17,6 +17,7 @@ module.exports = {
 
         Password.create(password_params).then(password => {
             res.locals.redirect = '/vault_landing_page';
+            req.flash('app_pass', password)
             req.flash('add_password_success', `${password.application_name}'s password successfully created`)
             console.log(`${password.application_name}'s password successfully created`);
             next();
@@ -25,22 +26,17 @@ module.exports = {
             next();
         });
     },
+    show_application_password: (req, res, next) => {
+        let new_obj = {...req.flash('app_pass')};
+        console.log(new_obj);
+        
+         next();
+    },
     update_password: (req, res, next) => {
         
     },
     delete_password: (req, res, next) => {
         
-    },
-    show_application_password: (req, res, next) => {
-        Password.findOne({}).then(app_password => {
-            res.locals.application_password = app_password;
-            console.log(`Application password found ${app_password}`);
-            next();
-
-        }).catch(error => {
-            console.log(`Error finding application password: ${error.message}`);
-            next();
-        });
     },
     //handler to redirect to appropriate page
     redirect_password_view: (req, res, next) => {
