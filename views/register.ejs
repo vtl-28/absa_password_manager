@@ -2,6 +2,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="/custom_styles.css"  rel="stylesheet">
         <link href="/styles.css" rel="stylesheet">
         <link href="/favicon.ico" rel="icon" type="image/x-icon">
         <title>Register</title>
@@ -45,7 +46,15 @@
                             <label for="" class="text-sm font-semibold">Your name</label><br>
                             <input class="w-full border-2 border-black border-opacity-10" name="name">
                             <label for="" class="text-sm font-semibold">Master password</label><br>
-                            <input class="w-full border-2 border-black border-opacity-10" name="master_password" type="password">
+                            <div id="passwordInput">
+                                <input class="w-full border-2 border-black border-opacity-10" name="master_password" type="password">
+                            </div>
+                            <div id="passwordStrength">
+                                <span id="poor"></span>
+                                <span id="weak"></span>
+                                <span id="strong"></span>
+                              </div>
+                           <div id="passwordInfo"></div>
                             <p class="text-xs text-gray-500 lg:mb-2">The master password is the password you use to access your vault. It is very important that you do not forget your master password. There is no way to recover the password in the event that you forget it.</p>                           
                             <label for="" class="text-sm font-semibold">Re-type master password</label><br>
                             <input class="w-full mb-2 border-2 border-black border-opacity-10" name="confirm_master_password" type="password"><br>
@@ -62,6 +71,7 @@
                 </div>
             </div>
         </div>
+        <script src="/password_strength_checker.js"></script> 
         <script src="/flowbite/dist/flowbite.js"></script>
     </body>
 </html>
