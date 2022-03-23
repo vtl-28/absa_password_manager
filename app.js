@@ -10,7 +10,7 @@ const cookie_parser = require('cookie-parser');
 const connect_flash = require('connect-flash');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
-
+const connect_db = require('./config/db_conn');
 
 const { index, vault, logout } = require('./controllers/home_controller');
 const { new_user, create_user, edit_user, update_user, password_hint_view, retrieve_password_hint, redirect_user_view} 
@@ -20,13 +20,7 @@ const { Strategy } = require('passport-local');
 const { create, redirect_password_view, show_application_password } = require('./controllers/password_controller');
 const method_override = require('method-override');
 
-mongoose.connect("mongodb://127.0.0.1:27017/password_vault", {
-    useNewUrlParser: true
-});
-const db = mongoose.connection;
-db.once("open", () => {
-    console.log("Successfully connected");
-});
+connect_db();
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static('public'));
@@ -51,7 +45,7 @@ app.use(express_session({
     saveUninitialized: true,
     resave: false,
     store: MongoStore.create({
-        mongoUrl: "mongodb://127.0.0.1:27017/password_vault"
+        mongoUrl: process.env.DB_URI
     }),
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 
