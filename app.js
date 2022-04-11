@@ -4,21 +4,18 @@ const app = express();
 const path = require('path');
 const favicon = require('serve-favicon');
 const mongoose = require('mongoose');
-const { body, check} = require('express-validator');
 const express_session = require('express-session');
 const cookie_parser = require('cookie-parser');
 const connect_flash = require('connect-flash');
+const method_override = require('method-override');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const connect_db = require('./config/db_conn');
 
-const { index, vault, logout } = require('./controllers/home_controller');
-const { new_user, create_user, edit_user, update_user, password_hint_view, retrieve_password_hint, redirect_user_view} 
-    = require('./controllers/user_controller');
-const User = require('./models/user');
-const { Strategy } = require('passport-local');
-const { create, redirect_password_view, show_application_password } = require('./controllers/password_controller');
-const method_override = require('method-override');
+const home_route = require('./routes/home');
+const user_route = require('./routes/user');
+const password_hint_route = require('./routes/password_hint');
+const application_passwords_route = require('./routes/application_passwords');
 
 connect_db();
 
@@ -41,7 +38,7 @@ app.use(
   );
 
 app.use(express_session({
-    secret:'geeksforgeeks',
+    secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
     resave: false,
     store: MongoStore.create({
@@ -52,10 +49,7 @@ app.use(express_session({
     }
 }));
 
-//require and let server know of passport strategy 
-require('./config/passport');
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 //middleware to print session details of authenticated user
 app.use((req, res, next) => {
@@ -64,73 +58,13 @@ app.use((req, res, next) => {
     next();
 });
 
-//middleware to check if user is authenticated
-function is_auth(req, res, next){
-    if(req.isAuthenticated()){
-        res.locals.authenticated_user = req.user;
-        next();
-    } else{
-        res.status(401).json({ msg: 'You are not authorized to view this resource'});
-    }
-}
 
-//route to access home page
-app.get('/', index);
-//route to access page to create new user
-app.get('/user/new', new_user);
-//route to create and validate new user
-app.post('/user/create', check('email').not().isEmpty().withMessage(
-    'Email is required').normalizeEmail().isEmail()
-    .withMessage('Must be a valid email').custom((value, {req}) => {
-        return User.findOne({email: value}).then(user => {
-            if(user){
-                throw new Error('Email already in use');
-            }
-        });
-    }),
-check('name').trim().not().isEmpty().withMessage('Name is required')
-.isAlpha().withMessage('Name must be only alphabetic characters'),
-check('master_password').trim().not().isEmpty().withMessage('Master password is required')
-.isLength({min: 8}).withMessage('Master password must have a minimum of 8 characters')
-.matches(/(?=.*?[0-9])/).withMessage('Master password must have at least one Number')
-.not().matches(/^$|\s+/).withMessage('White space not allowed'),
-check('confirm_master_password').trim().not().isEmpty()
-.withMessage('Master password confirmation required').custom((value, {req}) => {
-    if(value !== req.body.master_password){
-        throw new Error(`Master password confirmation does not match the master password`);
-    }
-    return true;
-}), create_user, redirect_user_view);
-//route to access page to edit user details
-app.get('/:id/edit_user', edit_user);
-//route to update details of existing user
-app.put('/:id/update_user', update_user, redirect_user_view);
 
-//route authenticate and login registered user
-app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/',
-    successRedirect: '/vault_landing_page',
-    failureFlash: true
-}));
-//route to access page to retrieve user master password hint
-app.get('/password_hint', password_hint_view);
-//route to retrieve user master password hint
-app.post('/password_hint', check('email').not().isEmpty().withMessage(
-    'Email is required').normalizeEmail().isEmail()
-    .withMessage('Must be a valid email').custom((value, {req}) => {
-        return User.findOne({email: value}).then(user => {
-            if(!user){
-                throw new Error('User does not exist');
-            }
-        });
-    }),retrieve_password_hint, redirect_user_view);
+app.use(home_route);
+app.use(user_route);
+app.use(password_hint_route);
+app.use(application_passwords_route);
 
-//route to access vault of authenticated user
-app.get('/vault_landing_page', is_auth, vault);
-//route to create and store an application password for user
-app.post('/create_password', create,redirect_password_view, show_application_password);
-//route to logout authenticated user
-app.get('/logout', logout);
 
 app.listen(app.get('port'), () => {
     console.log(`The server has started and is listening on port number: ${app.get('port')}`);
