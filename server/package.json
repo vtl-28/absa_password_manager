@@ -1,0 +1,40 @@
+{
+  "name": "absa_password_vault",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "npx tailwindcss build src/styles.css -o public/styles.css",
+    "start": "nodemon app.js",
+    "debug": "ndb app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.0.0",
+    "@themesberg/flowbite": "^1.3.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.6.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.7",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.14.0",
+    "flowbite": "^1.3.3",
+    "googleapis": "^95.0.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.2.0",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "^2.5.0",
+    "tailwindcss": "^2.2.16"
+  },
+  "devDependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
+    "ndb": "^1.1.5"
+  }
+}
