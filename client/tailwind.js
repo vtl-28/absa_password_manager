@@ -1,5 +1,6 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx}"],
+  content: ["./src/**/*.{js,jsx}",
+  "./node_modules/flowbite/**/*.js" ],
   presets: [],
   darkMode: 'media', // or 'class'
   theme: {
@@ -951,5 +952,7 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 }
