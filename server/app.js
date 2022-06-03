@@ -10,8 +10,10 @@ const connect_flash = require('connect-flash');
 const method_override = require('method-override');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
-const connect_db = require('./config/db_conn');
+const cors = require('cors');
 
+
+const connect_db = require('./config/db_conn');
 const home_route = require('./routes/home');
 const user_route = require('./routes/user');
 const password_hint_route = require('./routes/password_hint');
@@ -49,16 +51,13 @@ app.use(express_session({
     }
 }));
 
-
-
 //middleware to print session details of authenticated user
 app.use((req, res, next) => {
     console.log(req.session);
     console.log(req.user);
     next();
 });
-
-
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(home_route);
 app.use(user_route);
