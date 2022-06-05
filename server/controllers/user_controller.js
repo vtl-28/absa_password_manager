@@ -11,13 +11,38 @@ module.exports = {
     },
     //handler to create and register a new user
     create_user: (req, res, next) => {
+            // const salt_hash = gen_password(req.body.master_password);
+            // const salt = salt_hash.salt;
+            // const hash = salt_hash.hash;
+            // let user_params = {
+            //     email: req.body.email,
+            //     name: req.body.name,
+            //     hash: hash,
+            //     salt: salt,
+            //     confirm_master_password: req.body.confirm_master_password,
+            //     master_password_hint: req.body.master_password_hint
+            // }
+            
+            // User.create(user_params).then(user => {
+            //     //req.flash('success', `${user.name} successfully created`);
+            //     //res.locals.redirect = '/';
+            //     console.log(`User ${user.name} successfully created`);
+            //     //next();
+            // }).catch(error => {
+            //     // req.flash('error', `Failed to create user account because ${error.message}`);
+            //     // res.locals.redirect = '/user/new'
+            //     console.log(`Error saving user: ${error.message}`);
+            //    // next();
+            // })
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             let messages = errors.array().map(e => e.msg);
             req.skip = true;
-            req.flash('validation_errors', messages);
-            res.locals.redirect = '/user/new';
-            next();
+            res.status(400).send(messages);
+            console.log(messages);
+            // req.flash('validation_errors', messages);
+            // res.locals.redirect = '/user/new';
+            // next();
           }else{
             const salt_hash = gen_password(req.body.master_password);
             const salt = salt_hash.salt;
@@ -32,15 +57,17 @@ module.exports = {
             }
             
             User.create(user_params).then(user => {
-                req.flash('success', `${user.name} successfully created`);
-                res.locals.redirect = '/';
+                // req.flash('success', `${user.name} successfully created`);
+                // res.locals.redirect = '/';
                 console.log(`User ${user.name} successfully created`);
-                next();
+                res.status(201).send(`User ${user.name} successfully created` )
+                //next();
             }).catch(error => {
-                req.flash('error', `Failed to create user account because ${error.message}`);
-                res.locals.redirect = '/user/new'
+                // req.flash('error', `Failed to create user account because ${error.message}`);
+                // res.locals.redirect = '/user/new'
                 console.log(`Error saving user: ${error.message}`);
-                next();
+                res.status(404).send(`${error.message}`)
+               // next();
             })
           }
     },
