@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
+import FlashMessage from 'react-flash-message';
 //import RegisterForm from './RegisterForm';
 
 const RegisterForm = () => {
@@ -11,6 +12,9 @@ const RegisterForm = () => {
     master_password: "",
     confirm_master_password: "",
     master_password_hint: ""});
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState([]);
+
 
     function handleChange(e){
         setData((data) => 
@@ -20,15 +24,16 @@ const RegisterForm = () => {
         e.preventDefault();
 
         axios.post("http://localhost:3000/user/create", data)
-        .then((res) => {
+        .then((response) => {
             setData({ email: "", name: "",
             master_password: "",
             confirm_master_password: "",
             master_password_hint: ""});
-            console.log(res.data);
-        }).catch((err) => {
-            console.log("Error couldn't create user");
-            console.log(err.message);
+            setSuccessMessage(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+          setErrorMessage(error.response.data);
+          console.log(error.response.data);
         });
     
         
@@ -62,6 +67,13 @@ const RegisterForm = () => {
     return (
       <div className="h-full col-span-10 col-start-2 -mt-14 sm:col-start-3 sm:col-span-8 md:col-start-4 md:col-span-6 xl:col-start-5 xl:col-span-4">
           <div className="p-4 bg-white">
+          { 
+            errorMessage && <h3>{errorMessage}</h3>
+          }
+          { 
+            successMessage && <h3>{successMessage}</h3>
+           
+          }
               <form onSubmit={handleSubmit}>
               <label className="text-sm font-semibold">Email address</label><br />    
               <input
