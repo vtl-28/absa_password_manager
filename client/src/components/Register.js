@@ -4,6 +4,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
 import FlashMessage from 'react-flash-message';
+import { toast } from 'react-toastify';
+
+
 //import RegisterForm from './RegisterForm';
 
 const RegisterForm = () => {
@@ -30,49 +33,31 @@ const RegisterForm = () => {
             confirm_master_password: "",
             master_password_hint: ""});
             setSuccessMessage(response.data);
-            console.log(response.data);
+            console.log(response.data);    
         }).catch((error) => {
           setErrorMessage(error.response.data);
           console.log(error.response.data);
+          
         });
-    
-        
     }
-
-    // const formik = useFormik({
-    //   initialValues: {
-    //     email: "",
-    //     name: "",
-    //     master_password: "",
-    //     confirm_master_password: "",
-    //     master_password_hint: "",
-    //   },
-    //   validationSchema: Yup.object({
-    //     email: Yup.string().trim().email("Invalid email address").required("Email is required"),
-    //     name: Yup.string().trim().required("Name is required"),
-    //     master_password: Yup.string()
-    //       .trim()
-    //       .min(8)
-    //       .required("Master password is required"),
-    //     confirm_master_password: Yup.string()
-    //       .trim()
-    //       .min(8)
-    //       .required("Master password confirmation is required")
-    //   }),
-    //   onSubmit: (values) => {
-    //     alert(JSON.stringify(values, null, 2));
-    //     resetForm({values: ""})
-    //   },
-    // });
+    const success = (message) => {
+      const toast_id = 1;
+      toast.success(message);
+      toast.dismiss(toast_id);
+    }
+    const error = (message) => {
+      const toast_id = 0;
+      toast.error(message);
+      toast.dismiss(toast_id);
+    }
     return (
       <div className="h-full col-span-10 col-start-2 -mt-14 sm:col-start-3 sm:col-span-8 md:col-start-4 md:col-span-6 xl:col-start-5 xl:col-span-4">
           <div className="p-4 bg-white">
           { 
-            errorMessage && <h3>{errorMessage}</h3>
+            errorMessage && error(errorMessage)
           }
           { 
-            successMessage && <h3>{successMessage}</h3>
-           
+            successMessage && success(successMessage)
           }
               <form onSubmit={handleSubmit}>
               <label className="text-sm font-semibold">Email address</label><br />    
@@ -80,28 +65,25 @@ const RegisterForm = () => {
                 className="w-full border-2 border-black border-opacity-10"
                 name="email" type="text" onChange={handleChange}
                 value={data.email}
-                // onBlur={formik.handleBlur}
-                // value={formik.values.email}
+               
               />
-              {/* { formik.errors.email && formik.touched.email ? ( <div className="ml-3 text-sm font-medium text-red-700 dark:text-red-800">{formik.errors.email}</div> ) : null } */}
+             
               <label className="text-sm font-semibold">Your name</label><br />    
               <input
                 className="w-full px-0 py-0 border-2 border-black border-opacity-10"
                 name="name" type="text"  onChange={handleChange}
                 value={data.name}
-                // onBlur={formik.handleBlur}
-                // value={formik.values.name}
+              
               />
-              {/* { formik.errors.name && formik.touched.name ? ( <div className="ml-3 text-sm font-medium text-red-700 dark:text-red-800">{formik.errors.name}</div> ) : null } */}
+              
               <label className="text-sm font-semibold">Master password</label><br />     
               <input
                 className="w-full px-0 py-0 border-2 border-black border-opacity-10"
                 name="master_password" type="password"  onChange={handleChange}
                 value={data.master_password}
-                // onBlur={formik.handleBlur}
-                // value={formik.values.master_password}
+                
               />
-              {/* { formik.errors.master_password && formik.touched.master_password ? ( <div className="ml-3 text-sm font-medium text-red-700 dark:text-red-800">{formik.errors.master_password}</div> ) : null } */}
+             
               <p className="text-xs text-gray-500 lg:mb-2">
                 The master password is the password you use to access your vault. It is
                 very important that you do not forget your master password. There is no
@@ -112,17 +94,15 @@ const RegisterForm = () => {
                 className="w-full px-0 py-0 mb-2 border-2 border-black border-opacity-10"
                 name="confirm_master_password" type="password"  onChange={handleChange}
                 value={data.confirm_master_password}
-                // onBlur={formik.handleBlur}
-                // value={formik.values.confirm_master_password}
+              
               />
-                {/* { formik.errors.confirm_master_password && formik.touched.confirm_master_password ? ( <div className="ml-3 text-sm font-medium text-red-700 dark:text-red-800">{formik.errors.confirm_master_password}</div> ) : null } */}
+               
               <label className="text-sm font-semibold"> Master password hint(optional)  </label><br />
               <input
                 className="w-full px-0 py-0 border-2 border-black border-opacity-10"
                 name="master_password_hint" type="text" onChange={handleChange}
                 value={data.master_password_hint}
-                // onBlur={formik.handleBlur}
-                // value={formik.values.master_password_hint}
+               
               />
               <p className="text-xs text-gray-500 lg:mb-2">
                 A master password hint can help you remember your password if you forget
