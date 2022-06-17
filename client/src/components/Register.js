@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
@@ -17,7 +17,22 @@ const RegisterForm = () => {
     master_password_hint: ""});
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState([]);
+    const navigate = useNavigate();
 
+    const success_toast = (message) => {
+      const toast_id = 1;
+      toast.success(message, {
+        onClose: () => {
+          navigate('/', { replace: true});
+        }
+      });
+      toast.dismiss(toast_id);
+    }
+    const error_toast = (message) => {
+      const toast_id = 0;
+      toast.error(message);
+      toast.dismiss(toast_id);
+    }
 
     function handleChange(e){
         setData((data) => 
@@ -25,7 +40,7 @@ const RegisterForm = () => {
     };
     function handleSubmit(e){
         e.preventDefault();
-
+      
         axios.post("http://localhost:3000/user/create", data)
         .then((response) => {
             setData({ email: "", name: "",
@@ -33,55 +48,43 @@ const RegisterForm = () => {
             confirm_master_password: "",
             master_password_hint: ""});
             setSuccessMessage(response.data);
-            console.log(response.data);    
+            console.log(response.data);
         }).catch((error) => {
           setErrorMessage(error.response.data);
           console.log(error.response.data);
           
         });
     }
-    const success = (message) => {
-      const toast_id = 1;
-      toast.success(message);
-      toast.dismiss(toast_id);
-    }
-    const error = (message) => {
-      const toast_id = 0;
-      toast.error(message);
-      toast.dismiss(toast_id);
-    }
+  
     return (
       <div className="h-full col-span-10 col-start-2 -mt-14 sm:col-start-3 sm:col-span-8 md:col-start-4 md:col-span-6 xl:col-start-5 xl:col-span-4">
           <div className="p-4 bg-white">
           { 
-            errorMessage && error(errorMessage)
+            errorMessage && error_toast(errorMessage) 
           }
           { 
-            successMessage && success(successMessage)
+            successMessage && success_toast(successMessage)
           }
               <form onSubmit={handleSubmit}>
               <label className="text-sm font-semibold">Email address</label><br />    
               <input
                 className="w-full border-2 border-black border-opacity-10"
                 name="email" type="text" onChange={handleChange}
-                value={data.email}
-               
+                value={data.email}              
               />
-             
+
               <label className="text-sm font-semibold">Your name</label><br />    
               <input
                 className="w-full px-0 py-0 border-2 border-black border-opacity-10"
                 name="name" type="text"  onChange={handleChange}
-                value={data.name}
-              
+                value={data.name}   
               />
-              
+
               <label className="text-sm font-semibold">Master password</label><br />     
               <input
                 className="w-full px-0 py-0 border-2 border-black border-opacity-10"
                 name="master_password" type="password"  onChange={handleChange}
                 value={data.master_password}
-                
               />
              
               <p className="text-xs text-gray-500 lg:mb-2">
@@ -93,16 +96,14 @@ const RegisterForm = () => {
               <input
                 className="w-full px-0 py-0 mb-2 border-2 border-black border-opacity-10"
                 name="confirm_master_password" type="password"  onChange={handleChange}
-                value={data.confirm_master_password}
-              
+                value={data.confirm_master_password}        
               />
                
               <label className="text-sm font-semibold"> Master password hint(optional)  </label><br />
               <input
                 className="w-full px-0 py-0 border-2 border-black border-opacity-10"
                 name="master_password_hint" type="text" onChange={handleChange}
-                value={data.master_password_hint}
-               
+                value={data.master_password_hint}           
               />
               <p className="text-xs text-gray-500 lg:mb-2">
                 A master password hint can help you remember your password if you forget

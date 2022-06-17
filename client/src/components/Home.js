@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/absa_logo.jpg';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -12,12 +12,12 @@ const LoginForm = () => {
     });
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState([]);
-    
+    const navigate = useNavigate();
+
     function handleChange(e){
         setData((data) => 
         ({...data, [e.target.name]: e.target.value}))
     }
-
     function handleSubmit(e){
         e.preventDefault();
 
@@ -35,7 +35,11 @@ const LoginForm = () => {
 
     const success_toast = (message) => {
         const toast_id = 1;
-        toast.success(message);
+        toast.success(message, {
+            onClose: () => {
+                navigate('/vault', { replace: true});
+            }
+        });
         toast.dismiss(toast_id);
       }
       const error_toast = (message) => {

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.js'
 import './tailwind_output.css'
 import 'flowbite';
+import FlashMessage from 'react-flash-message';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

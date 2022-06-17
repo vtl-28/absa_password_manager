@@ -16,12 +16,12 @@ const App = () =>{
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="register" element={<Register />} />
-          <Route path="passwordhint" element={<PasswordHint />} />
+          <Route path="password_hint" element={<PasswordHint />} />
           <Route path="vault" element={<Vault />} />
         </Routes>
         <ToastContainer 
           position="top-center"
-          autoClose={3000}
+          autoClose={1000}
           transition={Zoom}
           hideProgressBar={true}
           limit={1}
