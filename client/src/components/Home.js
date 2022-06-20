@@ -23,7 +23,7 @@ const LoginForm = () => {
 
         axios.post("http://localhost:3000/login", data)
         .then((response) => {
-            setData({email: "", master_password: ""})
+            //setData({email: "", master_password: ""})
            setSuccessMessage(response.data);
             console.log(response.data); 
             console.log(response.statusText); 
@@ -37,7 +37,7 @@ const LoginForm = () => {
         const toast_id = 1;
         toast.success(message, {
             onClose: () => {
-                navigate('/vault', { replace: true});
+                navigate('/vault', { state: data});
             }
         });
         toast.dismiss(toast_id);
