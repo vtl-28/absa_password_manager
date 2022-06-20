@@ -3,7 +3,7 @@ const app = express.Router();
 const { body, check} = require('express-validator');
 const User = require('../models/user');
 
-const { new_user, create_user, edit_user, update_user, redirect_user_view, password_hint_view, retrieve_password_hint} 
+const { new_user, create_user, edit_user, update_user, redirect_user_view, fetch_user} 
     = require('../controllers/user_controller');
 
 //route to access page to create new user
@@ -31,6 +31,9 @@ check('confirm_master_password').trim().not().isEmpty()
     }
     return true;
 }), create_user, redirect_user_view);
+
+app.get('/user/:email', fetch_user);
+
 //route to access page to edit user details
 app.get('/:id/edit_user', edit_user);
 //route to update details of existing user
