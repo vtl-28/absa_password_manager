@@ -9,6 +9,10 @@ import Vault from "./components/Vault";
 import FlashMessage from 'react-flash-message';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import DAbsa from './components/DAbsa'
+import Sessions from './components/Sessions';
+import Sap from './components/Sap';
+import Client from './components/Client';
 
 const App = () =>{
     return (
@@ -17,7 +21,12 @@ const App = () =>{
           <Route path="/" element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="password_hint" element={<PasswordHint />} />
-          <Route path="vault" element={<Vault />} />
+          <Route path="vault" element={<Vault />}>
+            <Route path="d_absa" element={<DAbsa />}/>
+            <Route path="sessions" element={<Sessions />}/>
+            <Route path="sap" element={<Sap />}/>
+            <Route path="client" element={<Client />}/>
+          </Route>
         </Routes>
         <ToastContainer 
           position="top-center"

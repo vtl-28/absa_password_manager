@@ -1,40 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Routes, Route, Outlet, Link } from 'react-router-dom';
 
-function VaultMain(){
-    return (
-        <div className="col-span-7 row-span-3 bg-white">
-            <div className="flex justify-between">
-                <h1 className="text-xl font-semibold sm:text-2xl">My Vault</h1>
-                <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" data-modal-toggle="authentication-modal">
-                    <i className="fa-solid fa-plus"></i>Add item
-                </button>
-            </div>
-            <hr className="mt-1" />
-        </div>
-    )
-}
 
-function VaultSideMenu(){
-    return (
-        <div className="flex flex-col col-span-3 row-span-3 bg-white border border-opacity-100 rounded border-gray">
-            <div className="flex items-center justify-center h-12 bg-gray-100 bg-opacity-50 border-b-2 border-gray-300">
-                <h1 className="font-semibold uppercase ">Filters</h1>
-            </div>
-            <input className="pl-1 mt-6 text-xs border-2 border-black h-7 border-opacity-10 sm:text-center md:mx-2 md:text-base" placeholder="Search Vault" />
-            <div className="flex flex-col items-center mt-10 ">
-                <h1 className="mb-3 font-semibold">Types</h1>
-                <ul className="">
-                    <li><a className="uppercase" href="#">d_absa</a></li>
-                    <li><a className="uppercase" href="#">Sessions</a></li>
-                    <li><a className="uppercase" href="#">sap</a></li>
-                    <li><a className="uppercase" href="#">Client</a></li>
-                </ul>
-            </div>
-        </div>
-    )
-}
+// function VaultMain(){
+//     return (
+//         <div className="col-span-7 row-span-3 bg-white">
+//             <div className="flex justify-between">
+//                 <h1 className="text-xl font-semibold sm:text-2xl">My Vault</h1>
+//                 <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" data-modal-toggle="authentication-modal">
+//                     <i className="fa-solid fa-plus"></i>Add item
+//                 </button>
+//             </div>
+//             <hr className="mt-1" />
+            
+//         </div>
+//     )
+// }
+
+// function VaultSideMenu(){
+//     return (
+//         <div className="flex flex-col col-span-3 row-span-3 bg-white border border-opacity-100 rounded border-gray">
+//             <div className="flex items-center justify-center h-12 bg-gray-100 bg-opacity-50 border-b-2 border-gray-300">
+//                 <h1 className="font-semibold uppercase ">Filters</h1>
+//             </div>
+//             <input className="pl-1 mt-6 text-xs border-2 border-black h-7 border-opacity-10 sm:text-center md:mx-2 md:text-base" placeholder="Search Vault" />
+//             <div className="flex flex-col items-center mt-10 ">
+//                 <h1 className="mb-3 font-semibold">Types</h1>
+//                 <nav>
+//                     <Link>d_absa</Link>
+//                     <Link>sessions</Link>
+//                     <Link>sap</Link>
+//                     <Link>client</Link>
+//                 </nav>
+                
+//             </div>
+//         </div>
+//     )
+// }
 
 function DropDownMenu(){
     return (
@@ -65,18 +68,17 @@ function DropDownMenu(){
 function WelcomeMessage(){
     const [user, setUser] = useState({});
     const location = useLocation();
-    console.log(location.state.email);
+    // console.log(location.state.email);
     
-
     useEffect(() => {
         axios.get(`http://localhost:3000/user/${location.state.email}`).then(response => {
             setUser(response.data)
             //console.log(response.data);
         }).catch(error => {
-            console.log(error.response.data);
+            // console.log(error.response.data);
         })
     }, [])
-
+    
     return (
         <h1 className="text-2xl">Welcome, {user.name}</h1>
     )
@@ -97,8 +99,31 @@ function Vault(){
             <div className="container w-9/12 h-full mx-auto">
                 <Header />
                 <div className="grid h-full grid-cols-10 grid-rows-4 gap-10 pt-10">
-                  <VaultSideMenu />
-                  <VaultMain />
+                    <div className="flex flex-col col-span-3 row-span-3 bg-white border border-opacity-100 rounded border-gray">
+                        <div className="flex items-center justify-center h-12 bg-gray-100 bg-opacity-50 border-b-2 border-gray-300">
+                            <h1 className="font-semibold uppercase ">Filters</h1>
+                        </div>
+                        <input className="pl-1 mt-6 text-xs border-2 border-black h-7 border-opacity-10 sm:text-center md:mx-2 md:text-base" placeholder="Search Vault" />
+                        <div className="flex flex-col items-center mt-10 ">
+                            <h1 className="mb-3 font-semibold">Types</h1>
+                            <nav className="flex flex-col">
+                                <Link to="d_absa">D_Absa</Link>
+                                <Link to="sessions">Sessions</Link>
+                                <Link to="sap">Sap</Link>
+                                <Link to="client">Client</Link>
+                            </nav>
+                        </div>
+                     </div>
+                     <div className="col-span-7 row-span-3 bg-white">
+                        <div className="flex justify-between">
+                            <h1 className="text-xl font-semibold sm:text-2xl">My Vault</h1>
+                            <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" data-modal-toggle="authentication-modal">
+                                <i className="fa-solid fa-plus"></i>Add item
+                            </button>
+                        </div>
+                        <hr className="mt-1" />
+                        <Outlet />
+                    </div>
                 </div>
             </div>
         </div>
