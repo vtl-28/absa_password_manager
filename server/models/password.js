@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const password_schema = Schema({
+    department: {
+        type: String,
+        trim: true
+    },
     application_name: {
         type: String,
         trim: true
