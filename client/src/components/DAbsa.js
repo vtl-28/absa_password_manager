@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate, useLocation } from 'react-router-dom';
-//import password from '../../../server/models/password';
+import copy from 'copy-to-clipboard';
+
 
 function ApplicationPasswordModal({handleCloseModal}){
     const [ applicationPassword, setApplicationPassword ] = useState({ department: "D_Absa", application_name: "", username: "",application_password: ""});
@@ -63,6 +64,16 @@ function ApplicationPasswordModal({handleCloseModal}){
 }
 function ApplicationPasswordCard({pass}){
     const { _id, department, application_name, username, password} = pass;
+
+    const copyUsernameToClipboard = () => {
+        copy(username);
+        alert("Copied!");
+    };
+    const copyPasswordToClipboard = () => {
+        copy(password);
+        alert("Copied!");
+    };
+
     return(
         <li key={_id} className="">
             <a className="grid grid-cols-12 border-2 hover:bg-red-200 border-cyan-900" href="#">
@@ -71,8 +82,8 @@ function ApplicationPasswordCard({pass}){
                     <small>{application_name}</small>
                 </div>
                 <div className="flex justify-between w-9/12 col-span-10 col-start-6">
-                    <button>Copy username</button>
-                    <button>Copy password</button>
+                    <button onClick={ copyUsernameToClipboard }>Copy username</button>
+                    <button onClick={ copyPasswordToClipboard }>Copy password</button>
                     <button>Delete</button>
                 </div>
             </a>
