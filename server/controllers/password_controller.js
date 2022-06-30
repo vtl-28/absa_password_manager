@@ -48,13 +48,18 @@ module.exports = {
         });
     },
     show_application_password: (req, res, next) => {
-        Password.find().sort({_id: -1}).limit(1)
+        Password.find()
         .then(password => {
-            res.render('vault_landing_page', { pass: JSON.stringify(password)});
-            next()
+                console.log(`Application password successfully found`);   
+                res.status(200).send(password);
+                console.log(password);
+            
+            // res.render('vault_landing_page', { pass: JSON.stringify(password)});
+            // next()
         }).catch(error => {
             console.log(`Error retrieving last inserted application password: ${error.message}`);
-            next(error);
+            res.status(404).send(`Error retrieving last inserted application password: ${error.message}`);
+            //next(error);
         });
     },
     update_password: (req, res, next) => {

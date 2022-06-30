@@ -5,5 +5,6 @@ const { create, redirect_password_view, show_application_password } = require('.
 
 //route to create and store an application password for user
 app.post('/create_password', create);
+app.get('/find_password', show_application_password);
 
 module.exports = app;
