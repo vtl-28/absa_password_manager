@@ -62,7 +62,7 @@ function ApplicationPasswordModal({handleCloseModal}){
         </form>
     )
 }
-function ApplicationPasswordCard({pass}){
+function ApplicationPasswordCard({pass, handleDelete}){
     const { _id, department, application_name, username, password} = pass;
 
     const copyUsernameToClipboard = () => {
@@ -70,7 +70,11 @@ function ApplicationPasswordCard({pass}){
         alert("Copied!");
     };
     const copyPasswordToClipboard = () => {
-        copy(password);
+        fetch(`localhost:3000/decrypt_password/${password}`).then(response => response.json())
+        .then(data => {
+            console.log(data);
+            copy(data);
+        });
         alert("Copied!");
     };
 
@@ -83,8 +87,8 @@ function ApplicationPasswordCard({pass}){
                 </div>
                 <div className="flex justify-between w-9/12 col-span-10 col-start-6">
                     <button onClick={ copyUsernameToClipboard }>Copy username</button>
-                    <button onClick={ copyPasswordToClipboard }>Copy password</button>
-                    <button>Delete</button>
+                    <button  onClick={ copyPasswordToClipboard }>Copy password</button>
+                    <button name={_id} onClick={handleDelete}>Delete</button>
                 </div>
             </a>
         </li>
@@ -114,12 +118,20 @@ export default function DAbsa(){
         setId("");
         setOpen(false);
     }
+    function handleDelete(e){
+        axios.delete(`http://localhost:3000/delete_password/${e.target.name}`);
+
+        setPass(
+            pass.filter((pass) => pass._id !== e.target.name)
+        );
+    }
     
     const displayApplication = (
                             <ul>
                                 {
                                     pass.map((pas) => (
-                                        <ApplicationPasswordCard pass={pas} />
+                                        <ApplicationPasswordCard pass={pas} 
+                                        handleDelete={handleDelete} />
                                     ))
                                 }
                             </ul>
@@ -139,7 +151,6 @@ export default function DAbsa(){
              {
                  pass ? displayApplication : addApplication
              }
-             
             { open ? (
                 <div>
                     <ApplicationPasswordModal handleClose={handleCloseModal} />
