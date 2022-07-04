@@ -1,19 +1,21 @@
 const Password = require('../models/password');
 const User = require('../models/user');
 const gen_password = require('../lib/password_utils').genPassword;
+const { encrypt,  decrypt } = require('../lib/password_utils')
 
 module.exports = {
     //handler to create and store user application password
     create: (req, res, next) => {
-        const salt_hash = gen_password(req.body.application_password);
-        const salt = salt_hash.salt;
-        const hash = salt_hash.hash;
+        // const salt_hash = gen_password(req.body.application_password);
+        // const salt = salt_hash.salt;
+        // const hash = salt_hash.hash;
+        const encryptedKey = encrypt(req.body.application_password);
+        
         let password_params = {
             department: req.body.department,
             application_name: req.body.appication_name,
             username: req.body.username,
-            salt,
-            hash
+            application_password: encryptedKey
         }
 
         Password.create(password_params).then(password => {
@@ -62,10 +64,29 @@ module.exports = {
             //next(error);
         });
     },
+    decrypt_application_password: (req, res, next) => {
+        const decryptedKey = decrypt(req.body.application_password);
+        Password.findOne({ application_password: decryptedKey }).then(password => {
+            console.log(`Application password successfully fetched and decrypted`);   
+            res.status(200).send(password);
+            console.log(password);
+        }).catch(error => {
+            console.log(`Error fetching and decrypting password: ${error.message}`);
+            res.status(404).send(`Error fetching and decrypting password: ${error.message}`)
+        })
+    },
     update_password: (req, res, next) => {
         
     },
     delete_password: (req, res, next) => {
+        Password.findByIdAndRemove({_id: req.params.id})
+        .then((data) => {
+            res.json({ message: "Application password deleted successfully", data })
+            console.log("Application password deleted successfully")
+        }).catch((error) => {
+            console.log(`Application password delete failed: ${error.message}`)
+            res.status(404).send(`Application password delete failed: ${error.message}`)
+        })
         
     },
     //handler to redirect to appropriate page
