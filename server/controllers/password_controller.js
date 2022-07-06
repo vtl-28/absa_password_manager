@@ -1,7 +1,8 @@
 const Password = require('../models/password');
 const User = require('../models/user');
 const gen_password = require('../lib/password_utils').genPassword;
-const { encrypt,  decrypt } = require('../lib/password_utils')
+const { encrypt,  decrypt } = require('../lib/password_utils');
+let encryptedKey = '', decryptedKey = '';
 
 module.exports = {
     //handler to create and store user application password
@@ -9,7 +10,7 @@ module.exports = {
         // const salt_hash = gen_password(req.body.application_password);
         // const salt = salt_hash.salt;
         // const hash = salt_hash.hash;
-        const encryptedKey = encrypt(req.body.application_password);
+        encryptedKey = encrypt(req.body.application_password);
         
         let password_params = {
             department: req.body.department,
@@ -23,7 +24,7 @@ module.exports = {
             //req.flash('app_pass', password)
             //req.flash('add_password_success', `${password.application_name}'s password successfully created`)
             console.log(`Application password successfully created`);
-            res.status(200).send(`Application password successfully created`);
+            res.status(200).send(password);
             //let user_id = req.session.passport.user;
             // User.findByIdAndUpdate(user_id, 
             //     {$push: {application_passwords: password._id}},
@@ -65,11 +66,11 @@ module.exports = {
         });
     },
     decrypt_application_password: (req, res, next) => {
-        const decryptedKey = decrypt(req.body.application_password);
-        Password.findOne({ application_password: decryptedKey }).then(password => {
+        decryptedKey = decrypt(encryptedKey);
+        Password.findOne({ application_password: encryptedKey }).then(password => {
             console.log(`Application password successfully fetched and decrypted`);   
-            res.status(200).send(password);
-            console.log(password);
+            res.status(200).send(decryptedKey);
+            console.log(typeof decryptedKey);
         }).catch(error => {
             console.log(`Error fetching and decrypting password: ${error.message}`);
             res.status(404).send(`Error fetching and decrypting password: ${error.message}`)
