@@ -69,7 +69,7 @@ const LoginForm = () => {
                     value={data.master_password}
                 />
                 <button className="text-sm text-red-600 hover:underline">
-                    <Link to="/password_hint" >Get master password hint</Link>
+                    <Link to="/password_hint">Get master password hint</Link>
                 </button>
                 <hr className="mt-8" />
                 <div className="flex flex-row justify-between mt-4">

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useNavigate, useLocation } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
 
 
@@ -63,8 +62,7 @@ function ApplicationPasswordModal({handleCloseModal}){
     )
 }
 function ApplicationPasswordCard({pass, handleDelete}){
-    const { _id, department, application_name, username, password} = pass;
-    const [ decrypt, setDecrypt ] = useState('');
+    const { _id, application_name, username, password} = pass;
 
     const copyUsernameToClipboard = () => {
         copy(username);
@@ -80,7 +78,7 @@ function ApplicationPasswordCard({pass, handleDelete}){
     };
 
     return(
-        <li key={_id} className="">
+        <li key={_id}>
             <a className="grid grid-cols-12 border-2 hover:bg-red-200 border-cyan-900" href="#">
                 <div className="col-span-4 col-start-2">
                     <h3>{username}</h3>
@@ -104,7 +102,6 @@ export default function DAbsa(){
        const [ openList, setOpenList ] = useState(false);
        const [ openAddItem, setOpenAddItem ] = useState(true);
        const [id, setId] = useState(""); 
-       const navigate = useNavigate();
       
        function handleOpenModal(e){
            setId(e.target.name);
@@ -118,6 +115,12 @@ export default function DAbsa(){
            setApplicationPassword((applicationPassword) => 
            ({...applicationPassword, [e.target.name]: e.target.value}));
        }
+       function handleDelete(e){
+        axios.delete(`http://localhost:3000/delete_password/${e.target.name}`);
+            setApp(
+                app.filter((app) => app._id !== e.target.name)
+            );
+        }
        
        function handleSubmit(e){
            e.preventDefault();
@@ -161,7 +164,7 @@ export default function DAbsa(){
                                <ul>
                                    {
                                         app.map((pass) => (
-                                           <ApplicationPasswordCard pass={pass} />
+                                           <ApplicationPasswordCard pass={pass} handleDelete={handleDelete}/>
                                        ))
                                    }
                                </ul>
