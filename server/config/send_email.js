@@ -25,7 +25,8 @@ const create_transporter = async () => {
         scope: gmail_scopes,
         // Enable incremental authorization. Recommended as a best practice.
         include_granted_scopes: true
-    });
+     });
+     
 
       oauth2_client.setCredentials({
           refresh_token: process.env.OAUTH_REFRESH_TOKEN
@@ -34,7 +35,7 @@ const create_transporter = async () => {
       const access_token = await new Promise((resolve, reject) => {
           oauth2_client.getAccessToken((err, token) => {
               if(err){
-                  reject('Couldnt retrieve access token' + err);
+                  reject('Couldnt retrieve access token' + err.message);
               }
               resolve(token);
           });
@@ -59,6 +60,13 @@ const create_transporter = async () => {
             rejectUnauthorized: false
         }
     });
+    transporter.on('token', token => {
+        console.log('A new access token has been generated');
+        console.log('User: %s', token.user);
+        console.log('Access token: %s', token.accessToken);
+        console.log('Expires: %s', new Date(token.expires));
+
+    })
     transporter.verify((err, success) => {
     err
       ? console.log(err)

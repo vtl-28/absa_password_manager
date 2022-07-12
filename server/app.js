@@ -25,11 +25,12 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static('public'));
 app.use(express.static('assets'));
 app.use(express.static('node_modules'));
-app.set("view engine", "ejs");
-app.use(express.urlencoded({
-    extended:false
-}));
+//app.set("view engine", "ejs");
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(express.urlencoded({
+    extended:true
+}));
 app.set("port", process.env.PORT || 3000);
 app.use(connect_flash());
 
@@ -57,7 +58,7 @@ app.use((req, res, next) => {
     console.log(req.user);
     next();
 });
-app.use(cors({ origin: true, credentials: true }));
+
 
 app.use(home_route);
 app.use(user_route);
