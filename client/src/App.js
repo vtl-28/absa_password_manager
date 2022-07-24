@@ -13,6 +13,7 @@ import DAbsa from './components/DAbsa'
 import Sessions from './components/Sessions';
 import Sap from './components/Sap';
 import Client from './components/Client';
+import UserAccount from './components/UserAccount';
 
 const App = () =>{
     return (
@@ -27,6 +28,7 @@ const App = () =>{
             <Route path="sap" element={<Sap />}/>
             <Route path="client" element={<Client />}/>
           </Route>
+          <Route path="account/:id" element={<UserAccount />}/>
         </Routes>
         <ToastContainer 
           position="top-center"
