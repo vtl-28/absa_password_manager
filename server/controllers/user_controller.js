@@ -59,15 +59,15 @@ module.exports = {
         })
     },
     //handler to access page to update details of user
-    edit_user: (req, res, next) => {
+    fetch_account: (req, res, next) => {
         let user_id = req.params.id; 
         User.findById(user_id).then(user => {
-            res.render('account', {
-                user: user
-            });
+            console.log(`User ${user.id} successfully found`);
+            res.status(200).send(user);
         }).catch(error => {
             console.log(`Error fetching user by ID: ${error.message}`);
-            next(error);
+            res.status(404).send(`Error fetching user by ID: ${error.message}`);
+            //next(error);
         })
     },
     //handler to update details of user
@@ -81,13 +81,17 @@ module.exports = {
         User.findByIdAndUpdate(user_id, {
             $set: user_params
         }).then(user => {
-            req.flash('update_success', `${user.name}'s account
-            updated successfully!`);
-            res.locals.redirect = '/vault_landing_page';
-            next();
+            console.log(`${user.name}'s account updated successfully!`);
+            res.status(200).send(`${user.name}'s account updated successfully!`);
+            // req.flash('update_success', `${user.name}'s account
+            // updated successfully!`);
+            // res.locals.redirect = '/vault_landing_page';
+            // next();
         }).catch(error => {
             console.log(`Error updating user by ID: ${error.message}`);
-            next(error);
+            res.status(404).send(`Error updating user by ID: ${error.message}`);
+            // console.log(`Error updating user by ID: ${error.message}`);
+            // next(error);
         });
     },
     //handler to redirect to appropriate page
