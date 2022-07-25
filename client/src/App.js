@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import './tailwind_output.css';
 import 'flowbite';
+import './App.css';
 import Home from './components/Home';
 import Register from './components/Register';
 import PasswordHint from './components/PasswordHint';
