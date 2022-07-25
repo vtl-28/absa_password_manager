@@ -11,8 +11,11 @@ module.exports = {
     },
     //handler to logout authenticated user
     logout: (req, res, next) => {
-        req.logout();
-        res.redirect('/');
+        req.logout((error) => {
+            if (error) { return next(error); }
+            res.redirect('/');
+        });
+        
     }
 
 }

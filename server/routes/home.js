@@ -46,6 +46,6 @@ app.post('/login', (req, res, next) => {
 //route to access vault of authenticated user
 app.get('/vault_landing_page', is_auth, vault);
 //route to logout authenticated user
-app.get('/logout', logout);
+app.post('/logout', logout);
 
 module.exports = app;
