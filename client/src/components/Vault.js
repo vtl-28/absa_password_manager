@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation, useNavigate, Outlet, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Outlet, Link, NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Dropdown from 'react-bootstrap/Dropdown';
 //import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -143,43 +143,46 @@ function Header(){
 }
 
 function Vault(){
-    const [open, setOpen] = useState(false);
-    const [id, setId] = useState("");
-    const [ applicationPassword, setApplicationPassword ] = useState({ department: "D_Absa", application_name: "", username: "",application_password: ""}); 
-    const [ successMessage, setSuccessMessage ] = useState('');
-    const navigate = useNavigate();
+    // const [open, setOpen] = useState(false);
+    // const [id, setId] = useState("");
+    // const [ applicationPassword, setApplicationPassword ] = useState({ department: "D_Absa", application_name: "", username: "",application_password: ""}); 
+    // const [ successMessage, setSuccessMessage ] = useState('');
+    // const navigate = useNavigate();
 
-    function handleOpenModal(e){
-        setId(e.target.name);
-        setOpen(true);
-    }
-    function handleCloseModal() {
-        setId("");
-        setOpen(false);
-    }
-    function handleChange(e){
-        setApplicationPassword((applicationPassword) => 
-        ({...applicationPassword, [e.target.name]: e.target.value}));
-    }
-    function handleSubmit(e){
-        e.preventDefault();
-        axios.post("http://localhost:3000/create_password", applicationPassword)
-        .then(response => {
-            console.log(response.data);   
-            setSuccessMessage("Application password successfully created");
-        }).catch(error => {
-            console.log(error.response.data);
-        })  
-    }
+    // function handleOpenModal(e){
+    //     setId(e.target.name);
+    //     setOpen(true);
+    // }
+    // function handleCloseModal() {
+    //     setId("");
+    //     setOpen(false);
+    // }
+    // function handleChange(e){
+    //     setApplicationPassword((applicationPassword) => 
+    //     ({...applicationPassword, [e.target.name]: e.target.value}));
+    // }
+    // function handleSubmit(e){
+    //     e.preventDefault();
+    //     axios.post("http://localhost:3000/create_password", applicationPassword)
+    //     .then(response => {
+    //         console.log(response.data);   
+    //         setSuccessMessage("Application password successfully created");
+    //     }).catch(error => {
+    //         console.log(error.response.data);
+    //     })  
+    // }
 
-    const success_toast = (message) => {
-        const toast_id = 1;
-        toast.success(message, {
-            onClose: () => {
-                navigate(`/${applicationPassword.department.toLowerCase()}`, { state: applicationPassword});    
-            }
-        });
-        toast.dismiss(toast_id);
+    // const success_toast = (message) => {
+    //     const toast_id = 1;
+    //     toast.success(message, {
+    //         onClose: () => {
+    //             navigate(`/${applicationPassword.department.toLowerCase()}`, { state: applicationPassword});    
+    //         }
+    //     });
+    //     toast.dismiss(toast_id);
+    //   }
+      let activeStyle = {
+          color: "red"
       }
 
     return (
@@ -195,20 +198,20 @@ function Vault(){
                         <div className="flex flex-col items-center mt-10 ">
                             <h1 className="mb-3 font-semibold">Types</h1>
                             <nav className="flex flex-col">
-                                <Link to="d_absa">D_Absa</Link>
-                                <Link to="sessions">Sessions</Link>
-                                <Link to="sap">Sap</Link>
-                                <Link to="client">Client</Link>
+                                <NavLink to="d_absa" style={({isActive}) => isActive ? activeStyle : undefined}>D_Absa</NavLink>
+                                <NavLink to="sessions" style={({isActive}) => isActive ? activeStyle : undefined}>Sessions</NavLink>
+                                <NavLink to="sap" style={({isActive}) => isActive ? activeStyle : undefined}>Sap</NavLink>
+                                <NavLink to="client" style={({isActive}) => isActive ? activeStyle : undefined}>Client</NavLink>
                             </nav>
                         </div>
                      </div>
                      <div className="col-span-7 row-span-3 bg-white">
                         <div className="flex justify-between">
                             <h1 className="text-xl font-semibold sm:text-2xl">My Vault</h1>
-                            <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" onClick={handleOpenModal}>
+                            {/* <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" onClick={handleOpenModal}>
                                 <i className="fa-solid fa-plus"></i>Add item
-                            </button>
-                            { open ? (
+                            </button> */}
+                            {/* { open ? (
                                 <div>
                                     <form onSubmit={handleSubmit} className="px-6 pt-4 pb-4 lg:px-8 sm:pb-6 xl:pb-8"> 
                                         { 
@@ -234,7 +237,7 @@ function Vault(){
                             </div>
                         ) : (
                             ""
-                        )}
+                        )} */}
                         </div>
                         <hr className="mt-1" />
                         <Outlet />
