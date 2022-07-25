@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation, Routes, Route, Outlet, Link } from 'react-router-dom';
-
+import { useLocation, useNavigate, Outlet, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Dropdown from 'react-bootstrap/Dropdown';
 //import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -111,6 +111,7 @@ function DropDownMenu(){
 function Header(){
     const [user, setUser] = useState({});
     const location = useLocation();
+    const navigate = useNavigate();
     // console.log(location.state.email);
     
     useEffect(() => {
@@ -121,6 +122,10 @@ function Header(){
             // console.log(error.response.data);
         })
     }, [])
+    function handleLogout(){
+        axios.post("http://localhost:3000/logout");
+        navigate('/');
+    }
 
     return (
         <div className="flex flex-row justify-between">
@@ -130,7 +135,7 @@ function Header(){
             
                 <Dropdown.Menu align="end">
                     <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><Link to={`/account/${user._id}`}>My account</Link></Dropdown.Item>
-                    <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</Dropdown.Item>
+                    <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><button onClick={handleLogout}>Log out</button></Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </div>
@@ -138,6 +143,45 @@ function Header(){
 }
 
 function Vault(){
+    const [open, setOpen] = useState(false);
+    const [id, setId] = useState("");
+    const [ applicationPassword, setApplicationPassword ] = useState({ department: "D_Absa", application_name: "", username: "",application_password: ""}); 
+    const [ successMessage, setSuccessMessage ] = useState('');
+    const navigate = useNavigate();
+
+    function handleOpenModal(e){
+        setId(e.target.name);
+        setOpen(true);
+    }
+    function handleCloseModal() {
+        setId("");
+        setOpen(false);
+    }
+    function handleChange(e){
+        setApplicationPassword((applicationPassword) => 
+        ({...applicationPassword, [e.target.name]: e.target.value}));
+    }
+    function handleSubmit(e){
+        e.preventDefault();
+        axios.post("http://localhost:3000/create_password", applicationPassword)
+        .then(response => {
+            console.log(response.data);   
+            setSuccessMessage("Application password successfully created");
+        }).catch(error => {
+            console.log(error.response.data);
+        })  
+    }
+
+    const success_toast = (message) => {
+        const toast_id = 1;
+        toast.success(message, {
+            onClose: () => {
+                navigate(`/${applicationPassword.department.toLowerCase()}`, { state: applicationPassword});    
+            }
+        });
+        toast.dismiss(toast_id);
+      }
+
     return (
         <div className="w-screen h-screen py-8">
             <div className="container w-9/12 h-full mx-auto">
@@ -161,9 +205,36 @@ function Vault(){
                      <div className="col-span-7 row-span-3 bg-white">
                         <div className="flex justify-between">
                             <h1 className="text-xl font-semibold sm:text-2xl">My Vault</h1>
-                            <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" data-modal-toggle="authentication-modal">
+                            <button className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button" onClick={handleOpenModal}>
                                 <i className="fa-solid fa-plus"></i>Add item
                             </button>
+                            { open ? (
+                                <div>
+                                    <form onSubmit={handleSubmit} className="px-6 pt-4 pb-4 lg:px-8 sm:pb-6 xl:pb-8"> 
+                                        { 
+                                            successMessage && success_toast(successMessage)
+                                        }
+                                        <select value={applicationPassword.department} className="w-full mb-2" name="department" onChange={handleChange}>
+                                            <option value="D_Absa">D_Absa</option>
+                                            <option value="Sessions">Sessions</option>
+                                            <option value="Sap">Sap</option>
+                                            <option value="Client">Client</option>
+                                        </select>                
+                                        <label>Application Name</label>
+                                        <input onChange={handleChange} value={applicationPassword.application_name} className="w-full mb-2 border-2 border-black border-opacity-10" name="appication_name" />
+                                        <label>Username</label>
+                                        <input onChange={handleChange} value={applicationPassword.username} className="w-full mb-2 border-2 border-black border-opacity-10" name="username" />
+                                        <label>Password</label>
+                                        <input onChange={handleChange} value={applicationPassword.application_password} className="w-full mb-2 border-2 border-black border-opacity-10" name="application_password" type="password" />
+                                        <div className="flex flex-row justify-between mt-4">
+                                            <button className="p-1 font-semibold text-white bg-red-600 hover:bg-red-700 w-28" type="submit"><a>Save</a></button>
+                                            <button onClick={handleCloseModal} className="p-1 font-semibold border-2 border-black border-opacity-25 hover:bg-gray-400 opacity-60 w-28"><a>Cancel</a></button>
+                                        </div>
+                                </form>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                         </div>
                         <hr className="mt-1" />
                         <Outlet />
