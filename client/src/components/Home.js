@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/absa_logo.jpg';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import { Card, Button } from 'flowbite-react';
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -50,35 +50,35 @@ const LoginForm = () => {
 
     return(
         <div className="col-span-3 col-start-2 mb-4 border -mt-52 h-60 sm:col-start-3 sm:col-span-6 md:col-start-4 xl:col-start-5 xl:col-span-4">
-        <div className="p-4 bg-white">
-          { 
-            errorMessage && error_toast(errorMessage)
-          }
-          { 
-            successMessage && success_toast(successMessage)
-          }
-            <form onSubmit={handleSubmit}>
-                <label className="font-semibold">Email Address</label>
-                <input className="w-full mb-4 border-2 border-black border-opacity-10" name="email" 
-                    onChange={handleChange}
-                    value={data.email}
-                />
-                <label className="font-semibold">Master password</label>
-                <input className="w-full border-2 border-black border-opacity-10" name="master_password" type="password" 
-                    onChange={handleChange}
-                    value={data.master_password}
-                />
-                <button className="text-sm text-red-600 hover:underline">
-                    <Link to="/password_hint">Get master password hint</Link>
-                </button>
-                <hr className="mt-8" />
-                <div className="flex flex-row justify-between mt-4">
-                    <button className="w-24 p-1 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 sm:w-36 sm:text-base lg:w-48 xl:w-44">Log in</button>
-                    <button className="p-1 text-sm font-semibold border-2 border-black border-opacity-25 hover:bg-gray-400 opacity-60 sm:w-36 sm:text-base lg:w-48 xl:w-44"><Link to="/register">Create account</Link></button>
-                </div>
-            </form>
+            <div className="p-4 bg-white border rounded-md border-gray">
+                { 
+                    errorMessage && error_toast(errorMessage)
+                }
+                { 
+                    successMessage && success_toast(successMessage)
+                }
+                <form onSubmit={handleSubmit}>
+                    <label className="font-semibold">Email Address</label>
+                    <input className="w-full mb-2 border-2 border-black border-opacity-25" name="email" 
+                        onChange={handleChange}
+                        value={data.email}
+                    />
+                    <label className="font-semibold">Master password</label>
+                    <input className="w-full px-0 py-0 border-2 border-black border-opacity-25" name="master_password" type="password" 
+                        onChange={handleChange}
+                        value={data.master_password}
+                    />
+                    <button className="text-sm text-red-600 hover:underline">
+                        <Link to="/password_hint">Get master password hint</Link>
+                    </button>
+                    <hr className="mt-8" />
+                    <div className="flex flex-row justify-between mt-4">
+                        <button className="w-24 p-1 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 sm:w-36 sm:text-base lg:w-48 xl:w-40" >Log in</button>
+                        <button className="p-1 text-sm font-semibold border-2 border-opacity-75 rounded-md border-gray hover:bg-gray-400 opacity-60 sm:w-36 sm:text-base lg:w-48 xl:w-40"><Link to="/register">Create account</Link></button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     )
 }
 
