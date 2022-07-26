@@ -21,15 +21,15 @@ function ApplicationPasswordCard({pass, handleDelete}){
 
     return(
         <li key={_id}>
-            <a className="grid grid-cols-12 border-2 hover:bg-red-200 border-cyan-900" href="#">
+            <a className="grid grid-cols-12 rounded-md hover:bg-gray-100" href="#">
                 <div className="col-span-4 col-start-2">
                     <h3>{username}</h3>
                     <small>{application_name}</small>
                 </div>
                 <div className="flex justify-between w-9/12 col-span-10 col-start-6">
-                    <button onClick={ copyUsernameToClipboard }>Copy username</button>
-                    <button  onClick={ copyPasswordToClipboard }>Copy password</button>
-                    <button name={_id} onClick={handleDelete}>Delete</button>
+                    <button onClick={ copyUsernameToClipboard } className="text-sm">Copy username</button>
+                    <button  onClick={ copyPasswordToClipboard } className="text-sm">Copy password</button>
+                    <button name={_id} onClick={handleDelete} className="text-sm">Delete</button>
                 </div>
             </a>
         </li>
@@ -59,10 +59,12 @@ export default function Client(){
      ({...applicationPassword, [e.target.name]: e.target.value}));
  }
  function handleDelete(e){
-  axios.delete(`http://localhost:3000/delete_password/${e.target.name}`);
-      setApp(
-          app.filter((app) => app._id !== e.target.name)
-      );
+    if(confirm('Are you sure you want to delete this record?') == true){
+        axios.delete(`http://localhost:3000/delete_password/${e.target.name}`);
+        setApp(
+            app.filter((app) => app._id !== e.target.name)
+        );
+   }
   }
  
  function handleSubmit(e){
@@ -115,7 +117,7 @@ export default function Client(){
  const addApplication =  (
                          <div>
                              <h3 className="mb-2">There are no items to list</h3>
-                              <button onClick={handleOpenModal} className="w-24 p-1 text-sm font-semibold text-red-600 border bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button">
+                              <button onClick={handleOpenModal} className="w-24 p-1 text-sm font-semibold text-red-600 border rounded-md bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button">
                                  <i className="fa-solid fa-plus"></i>Add item
                              </button>
                          </div>
@@ -148,10 +150,10 @@ export default function Client(){
                      <label>Username</label>
                      <input onChange={handleChange} value={applicationPassword.username} className="w-full mb-2 border-2 border-black border-opacity-10" name="username" />
                      <label>Password</label>
-                     <input onChange={handleChange} value={applicationPassword.application_password} className="w-full mb-2 border-2 border-black border-opacity-10" name="application_password" type="password" />
+                     <input onChange={handleChange} value={applicationPassword.application_password} className="w-full px-0 py-0 mb-2 border-2 border-black border-opacity-10" name="application_password" type="password" />
                      <div className="flex flex-row justify-between mt-4">
-                         <button className="p-1 font-semibold text-white bg-red-600 hover:bg-red-700 w-28" type="submit"><a>Save</a></button>
-                         <button onClick={handleCloseModal} className="p-1 font-semibold border-2 border-black border-opacity-25 hover:bg-gray-400 opacity-60 w-28"><a>Cancel</a></button>
+                         <button className="p-1 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 w-28" type="submit"><a>Save</a></button>
+                         <button onClick={handleCloseModal} className="p-1 font-semibold border-2 border-black border-opacity-25 rounded-md hover:bg-gray-400 opacity-60 w-28"><a>Cancel</a></button>
                      </div>
                  </form>
              </div>
