@@ -130,14 +130,18 @@ function Header(){
     return (
         <div className="flex flex-row justify-between">
             <h1 className="text-2xl">Welcome, {user.name}</h1>
-             <Dropdown drop="down">
+            <div className="mt-1">
+                <Link to={`/account/${user._id}`} className="font-normal">My account</Link>
+                <button onClick={handleLogout} className="ml-6 font-normal">Log out</button>
+            </div>
+             {/* <Dropdown drop="down">
                 <Dropdown.Toggle id="dropdown-basic" split />
             
                 <Dropdown.Menu align="end">
                     <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><Link to={`/account/${user._id}`}>My account</Link></Dropdown.Item>
                     <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><button onClick={handleLogout}>Log out</button></Dropdown.Item>
                 </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
         </div>
     )
 }
