@@ -22,6 +22,7 @@ check('name').trim().not().isEmpty().withMessage('Name is required')
 .isAlpha().withMessage('Name must be only alphabetic characters'),
 check('master_password').trim().not().isEmpty().withMessage('Master password is required')
 .isLength({min: 8}).withMessage('Master password must have a minimum of 8 characters')
+.matches(/(?=.*?[a-zA-Z])/).withMessage('Master password must have at least one Letter')
 .matches(/(?=.*?[0-9])/).withMessage('Master password must have at least one Number')
 .not().matches(/^$|\s+/).withMessage('White space not allowed'),
 check('confirm_master_password').trim().not().isEmpty()
@@ -30,7 +31,7 @@ check('confirm_master_password').trim().not().isEmpty()
         throw new Error(`Master password confirmation does not match the master password`);
     }
     return true;
-}), create_user, redirect_user_view);
+}), create_user);
 
 app.get('/user/:email', fetch_user);
 
