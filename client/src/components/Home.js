@@ -24,24 +24,25 @@ const LoginForm = () => {
         axios.post("http://localhost:3000/login", data)
         .then((response) => {
             //setData({email: "", master_password: ""})
-           setSuccessMessage(response.data);
+            //setSuccessMessage(response.data);
             console.log(response.data); 
             console.log(response.statusText); 
+            navigate('/vault', { state: response.data});
         }).catch((error) => {
             setErrorMessage(error.response.data);
             console.log(error.response.data);
         })
     }
 
-    const success_toast = (message) => {
-        const toast_id = 1;
-        toast.success(message, {
-            onClose: () => {
-                navigate('/vault', { state: data});
-            }
-        });
-        toast.dismiss(toast_id);
-      }
+    // const success_toast = (message) => {
+    //     const toast_id = 1;
+    //     toast.success(message, {
+    //         onClose: () => {
+    //             navigate('/vault', { state: data});
+    //         }
+    //     });
+    //     toast.dismiss(toast_id);
+    //   }
       const error_toast = (message) => {
         const toast_id = 0;
         toast.error(message);
@@ -54,9 +55,9 @@ const LoginForm = () => {
                 { 
                     errorMessage && error_toast(errorMessage)
                 }
-                { 
+                {/* { 
                     successMessage && success_toast(successMessage)
-                }
+                } */}
                 <form onSubmit={handleSubmit}>
                     <label className="font-semibold">Email Address</label>
                     <input className="w-full mb-2 border-2 border-black border-opacity-25" name="email" 

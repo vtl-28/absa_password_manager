@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function UserAccout(){
     let { id } = useParams();
     const [ user, setUser ] = useState({})
-    const [ data, setData ] = useState({email: '', name: '', password_hint: ''});
+    const [ data, setData ] = useState({email: '', name: '', master_password_hint: ''});
     const [ successMessage, setSuccessMessage ] = useState('');
     const [ errorMessage, setErrorMessage ] = useState('');
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function UserAccout(){
         toast.success(message, {
             onClose: () => {
                setTimeout(() => {
-                    navigate('/vault', { state: data});
+                    navigate('/vault', { state: user});
                }, 2000)
             }
         });
@@ -63,8 +63,51 @@ function UserAccout(){
     return(
         <div className="w-screen h-screen py-8 ">
             <div className="container w-9/12 h-full mx-auto">
-                <h1 className="mb-1 text-2xl">My account</h1>
-                { 
+                <div className="grid h-full grid-cols-12 grid-rows-4">
+                    <div className="flex items-start justify-center h-8 col-span-6 col-start-4 mt-6 sm:col-start-5 sm:col-span-4">
+                         <h3 className="text-xl md:text-2xl">My account</h3>
+                    </div>
+                    <div className="h-full col-span-10 col-start-2 -mt-14 sm:col-start-3 sm:col-span-8 md:col-start-4 md:col-span-6 xl:col-start-5 xl:col-span-4">
+                        <div className="p-4 bg-white border rounded-md border-gray">
+                            {
+                                errorMessage && error_toast(errorMessage)
+                            }
+                            {
+                                successMessage && success_toast(successMessage)
+                            }
+                            <form className="flex flex-col py-4" onSubmit={handleSubmit} method="POST">
+                                <label className="text-sm font-semibold ">Email address</label>
+                                <input placeholder={user.email} className="px-0 py-0 mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="email" 
+                                    onChange={handleChange}
+                                    value={data.email}
+                                />
+                            
+                                <label class="text-sm font-semibold ">Your name</label>
+                                <input placeholder={user.name}  class=" mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="name" 
+                                    onChange={handleChange}
+                                    value={data.name}
+                                />
+                                                        
+                                <label className="text-sm font-semibold ">Master password hint</label>
+                                <input placeholder={user.master_password_hint}  className="mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="master_password_hint"
+                                    onChange={handleChange}
+                                    value={data.master_password_hint} />
+                                        
+                                <hr className="mt-6" />
+                                <div className="flex flex-row justify-between mt-4">
+                                    <button type="submit" className="w-32 p-1 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 sm:w-36 lg:w-48 xl:w-40">
+                                        Update
+                                    </button>
+                                    <button onClick={() => navigate('/vault', { state: user})} className="w-32 p-1 font-semibold border-2 border-opacity-75 rounded-md border-gray hover:bg-gray-400 opacity-60 sm:w-36 lg:w-48 xl:w-40">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {/* <h1 className="mb-1 text-2xl">My account</h1> */}
+                {/* { 
                     errorMessage && error_toast(errorMessage)
                 }
                 { 
@@ -90,7 +133,7 @@ function UserAccout(){
                             
                     <hr className="mt-6" />
                     <button className="w-32 p-1 mt-4 font-semibold text-white bg-red-600 hover:bg-red-700 sm:w-36 lg:w-48 xl:w-40"><a>Update</a></button>      
-                </form>
+                </form> */}
             </div>
         </div>
     )

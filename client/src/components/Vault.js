@@ -112,10 +112,10 @@ function Header(){
     const [user, setUser] = useState({});
     const location = useLocation();
     const navigate = useNavigate();
-    // console.log(location.state.email);
+    //console.log(location.state._id);
     
     useEffect(() => {
-        axios.get(`http://localhost:3000/user/${location.state.email}`).then(response => {
+        axios.get(`http://localhost:3000/user/${location.state._id}`).then(response => {
             setUser(response.data)
             //console.log(response.data);
         }).catch(error => {
