@@ -50,7 +50,10 @@ module.exports = {
           }
     },
     fetch_user: (req, res, next) => {
-        User.findOne({email: req.params.email}).then((user) => {
+        let user_id = {
+            _id: req.params.id
+        }
+        User.findOne(user_id).then((user) => {
             console.log(`User ${user.name} successfully found`);
             res.status(201).send(user);
         }).catch((error) => {
@@ -60,39 +63,46 @@ module.exports = {
     },
     //handler to access page to update details of user
     fetch_account: (req, res, next) => {
-        let user_id = req.params.id; 
+        let user_id = {
+            _id: req.params.id
+        }
         User.findById(user_id).then(user => {
             console.log(`User ${user.id} successfully found`);
             res.status(200).send(user);
         }).catch(error => {
-            console.log(`Error fetching user by ID: ${error.message}`);
+            console.log(`Error fetching account by ID: ${error.message}`);
             res.status(404).send(`Error fetching user by ID: ${error.message}`);
             //next(error);
         })
     },
     //handler to update details of user
     update_user: (req, res, next) => {
-        let user_id = req.params.id; 
-        let user_params = {
-            email: req.body.email,
-            name: req.body.name,
-            master_password_hint: req.body.master_password_hint
-        }
-        User.findByIdAndUpdate(user_id, {
-            $set: user_params
-        }).then(user => {
-            console.log(`${user.name}'s account updated successfully!`);
-            res.status(200).send(`${user.name}'s account updated successfully!`);
-            // req.flash('update_success', `${user.name}'s account
-            // updated successfully!`);
-            // res.locals.redirect = '/vault_landing_page';
-            // next();
-        }).catch(error => {
-            console.log(`Error updating user by ID: ${error.message}`);
-            res.status(404).send(`Error updating user by ID: ${error.message}`);
-            // console.log(`Error updating user by ID: ${error.message}`);
-            // next(error);
-        });
+            
+            let user_id = req.params.id
+    
+            let user_params = {
+                email: req.params.email,
+                name: req.body.name,
+                master_password_hint: req.body.master_password_hint
+            }
+            User.findByIdAndUpdate(user_id, {
+                $set: user_params
+            }).then(user => {
+                console.log(`${user.name}'s account updated successfully!`);
+                res.status(200).send(`${user.name}'s account updated successfully!`);
+                // req.flash('update_success', `${user.name}'s account
+                // updated successfully!`);
+                // res.locals.redirect = '/vault_landing_page';
+                // next();
+            }).catch(error => {
+                console.log(`Error updating user by ID: ${error.message}`);
+                res.status(404).send(`Error updating user by ID: ${error.message}`);
+                // console.log(`Error updating user by ID: ${error.message}`);
+                // next(error);
+            });
+          
+           
+        
     },
     //handler to redirect to appropriate page
     redirect_user_view: (req, res, next) => {

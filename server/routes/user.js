@@ -33,12 +33,12 @@ check('confirm_master_password').trim().not().isEmpty()
     return true;
 }), create_user);
 
-app.get('/user/:email', fetch_user);
+app.get('/user/:id', fetch_user);
 
 //route to access page to edit user details
 app.get('/account/:id', fetch_account);
 //route to update details of existing user
-app.put('/account/:id', update_user);
+app.put('/account/:id',update_user);
 
 // //route to access page to retrieve user master password hint
 // app.get('/password_hint', password_hint_view);
