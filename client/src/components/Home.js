@@ -59,13 +59,13 @@ const LoginForm = () => {
                     successMessage && success_toast(successMessage)
                 } */}
                 <form onSubmit={handleSubmit}>
-                    <label className="font-semibold">Email Address</label>
-                    <input className="w-full mb-2 border-2 border-black border-opacity-25" name="email" 
+                    <label className="label-style">Email Address</label>
+                    <input className="input-style" name="email" 
                         onChange={handleChange}
                         value={data.email}
                     />
-                    <label className="font-semibold">Master password</label>
-                    <input className="w-full px-0 py-0 border-2 border-black border-opacity-25" name="master_password" type="password" 
+                    <label className="label-style">Master password</label>
+                    <input className="input-style" name="master_password" type="password" 
                         onChange={handleChange}
                         value={data.master_password}
                     />
@@ -74,8 +74,8 @@ const LoginForm = () => {
                     </button>
                     <hr className="mt-8" />
                     <div className="flex flex-row justify-between mt-4">
-                        <button className="w-24 p-1 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 sm:w-36 sm:text-base lg:w-48 xl:w-40" >Log in</button>
-                        <button className="p-1 text-sm font-semibold border-2 border-opacity-75 rounded-md border-gray hover:bg-gray-400 opacity-60 sm:w-36 sm:text-base lg:w-48 xl:w-40"><Link to="/register">Create account</Link></button>
+                        <button className="w-24 text-sm btn-submit sm:w-36 sm:text-base lg:w-48 xl:w-40" >Log in</button>
+                        <button className="text-sm btn-cancel sm:w-36 sm:text-base lg:w-48 xl:w-40"><Link to="/register">Create account</Link></button>
                     </div>
                 </form>
             </div>

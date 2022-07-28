@@ -117,7 +117,7 @@ export default function Client(){
  const addApplication =  (
                          <div>
                              <h3 className="mb-2">There are no items to list</h3>
-                              <button onClick={handleOpenModal} className="w-24 p-1 text-sm font-semibold text-red-600 border rounded-md bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base" type="button">
+                              <button onClick={handleOpenModal} className="btn-add-item" type="button">
                                  <i className="fa-solid fa-plus"></i>Add item
                              </button>
                          </div>
@@ -145,15 +145,15 @@ export default function Client(){
                          <option value="Sap">Sap</option>
                          <option value="Client">Client</option>
                      </select>                
-                     <label>Application Name</label>
-                     <input onChange={handleChange} value={applicationPassword.application_name} className="w-full mb-2 border-2 border-black border-opacity-10" name="appication_name" />
-                     <label>Username</label>
-                     <input onChange={handleChange} value={applicationPassword.username} className="w-full mb-2 border-2 border-black border-opacity-10" name="username" />
-                     <label>Password</label>
-                     <input onChange={handleChange} value={applicationPassword.application_password} className="w-full px-0 py-0 mb-2 border-2 border-black border-opacity-10" name="application_password" type="password" />
+                     <label className="label-style">Application Name</label>
+                     <input onChange={handleChange} value={applicationPassword.application_name} className="input-style" name="appication_name" />
+                     <label className="label-style">Username</label>
+                     <input onChange={handleChange} value={applicationPassword.username} className="input-style" name="username" />
+                     <label className="label-style">Password</label>
+                     <input onChange={handleChange} value={applicationPassword.application_password} className="input-style" name="application_password" type="password" />
                      <div className="flex flex-row justify-between mt-4">
-                         <button className="p-1 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 w-28" type="submit"><a>Save</a></button>
-                         <button onClick={handleCloseModal} className="p-1 font-semibold border-2 border-black border-opacity-25 rounded-md hover:bg-gray-400 opacity-60 w-28"><a>Cancel</a></button>
+                         <button className="btn-submit w-28" type="submit"><a>Save</a></button>
+                         <button onClick={handleCloseModal} className="btn-cancel w-28"><a>Cancel</a></button>
                      </div>
                  </form>
              </div>

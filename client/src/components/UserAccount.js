@@ -76,29 +76,29 @@ function UserAccout(){
                                 successMessage && success_toast(successMessage)
                             }
                             <form className="flex flex-col py-4" onSubmit={handleSubmit} method="POST">
-                                <label className="text-sm font-semibold ">Email address</label>
-                                <input placeholder={user.email} className="px-0 py-0 mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="email" 
+                                <label className="label-style">Email address</label>
+                                <input placeholder={user.email} className="input-style" name="email" 
                                     onChange={handleChange}
                                     value={data.email}
                                 />
                             
-                                <label class="text-sm font-semibold ">Your name</label>
-                                <input placeholder={user.name}  class=" mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="name" 
+                                <label class="label-style">Your name</label>
+                                <input placeholder={user.name}  class=" mt-1 text-lg input-style" name="name" 
                                     onChange={handleChange}
                                     value={data.name}
                                 />
                                                         
-                                <label className="text-sm font-semibold ">Master password hint</label>
-                                <input placeholder={user.master_password_hint}  className="mt-1 mb-4 text-lg border-2 border-black border-opacity-10" name="master_password_hint"
+                                <label className="label-style">Master password hint</label>
+                                <input placeholder={user.master_password_hint}  className="mt-1 text-lg input-style" name="master_password_hint"
                                     onChange={handleChange}
                                     value={data.master_password_hint} />
                                         
                                 <hr className="mt-6" />
                                 <div className="flex flex-row justify-between mt-4">
-                                    <button type="submit" className="w-32 p-1 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 sm:w-36 lg:w-48 xl:w-40">
+                                    <button type="submit" className="w-32 btn-submit sm:w-36 lg:w-48 xl:w-40">
                                         Update
                                     </button>
-                                    <button onClick={() => navigate('/vault', { state: user})} className="w-32 p-1 font-semibold border-2 border-opacity-75 rounded-md border-gray hover:bg-gray-400 opacity-60 sm:w-36 lg:w-48 xl:w-40">
+                                    <button onClick={() => navigate('/vault', { state: user})} className="w-32 btn-cancel sm:w-36 lg:w-48 xl:w-40">
                                         Cancel
                                     </button>
                                 </div>
