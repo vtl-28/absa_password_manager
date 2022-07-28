@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import axios from 'axios';
 import FlashMessage from 'react-flash-message';
 import { toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
 
 
 //import RegisterForm from './RegisterForm';
@@ -18,21 +20,36 @@ const RegisterForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState([]);
     const navigate = useNavigate();
+    const [ showError, setShowError ] = useState(false);
+    const [ showSuccess, setShowSuccess ] = useState(false);
+      
 
-    const success_toast = (message) => {
-      const toast_id = 1;
-      toast.success(message, {
-        onClose: () => {
-          navigate('/', { replace: true});
-        }
-      });
-      toast.dismiss(toast_id);
-    }
-    const error_toast = (message) => {
-      const toast_id = 0;
-      toast.error(message);
-      toast.dismiss(toast_id);
-    }
+    // const success_toast = (message) => {
+    //   const toast_id = 1;
+    //   toast.success(message, {
+    //     onClose: () => {
+    //       navigate('/', { replace: true});
+    //     }
+    //   });
+    //   toast.dismiss(toast_id);
+    // }
+    // const error_toast = (message) => {
+    //   const toast_id = 0;
+    //   toast.error(message);
+    //   toast.dismiss(toast_id);
+    // }
+    let errorAlert = (<Alert className="px-3 py-1 bg-red-100 border-2 border-red-500 border-opacity-25 rounded-md">
+                        <div className="flex flex-row justify-between w-0">
+                          <p className="text-sm text-red-500">{errorMessage}</p> 
+                          <Button className="text-red-500" onClick={() => setShowError(false)}>x</Button>
+                        </div>                                               
+                    </Alert>);
+    let successAlert = (<Alert className="px-3 py-1 bg-green-100 border-2 border-green-500 border-opacity-25 rounded-md">
+                          <div className="flex flex-row justify-between w-0">
+                            <p className="text-sm text-green-500">{successMessage}</p> 
+                            <Button className="text-green-500" onClick={() => setShowSuccess(false)}>x</Button>
+                          </div>                                               
+                        </Alert>);
 
     function handleChange(e){
         setData((data) => 
@@ -48,11 +65,12 @@ const RegisterForm = () => {
             confirm_master_password: "",
             master_password_hint: ""});
             setSuccessMessage(response.data);
+            setShowSuccess(showSuccess => !showSuccess);
             console.log(response.data);
         }).catch((error) => {
           setErrorMessage(error.response.data);
+          setShowError(showError => !showError);
           console.log(error.response.data);
-          
         });
     }
   
@@ -60,10 +78,10 @@ const RegisterForm = () => {
       <div className="h-full col-span-10 col-start-2 -mt-14 sm:col-start-3 sm:col-span-8 md:col-start-4 md:col-span-6 xl:col-start-5 xl:col-span-4">
           <div className="p-4 bg-white border rounded-md border-gray">
           { 
-            errorMessage && error_toast(errorMessage) 
+            errorMessage && showError ? errorAlert : '' 
           }
           { 
-            successMessage && success_toast(successMessage)
+            successMessage && showSuccess ? successAlert: ''
           }
               <form onSubmit={handleSubmit}>
               <label className="label-style">Email address</label><br />    
@@ -115,7 +133,7 @@ const RegisterForm = () => {
                   Submit
                 </button>
                 <button className="w-32 p-1 btn-cancel sm:w-36 lg:w-48 xl:w-40">
-                  <Link to="/">Cancel</Link>
+                  { successMessage ? (<Link to="/">Back</Link>) : (<Link to="/">Cancel</Link>)}
                 </button>
               </div>
             </form>

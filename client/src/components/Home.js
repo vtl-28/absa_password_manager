@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/absa_logo.jpg';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Card, Button } from 'flowbite-react';
+import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
+// import { toast } from 'react-toastify';
+// import { Card, Button } from 'flowbite-react';
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -13,6 +15,14 @@ const LoginForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState([]);
     const navigate = useNavigate();
+    const [ showError, setShowError ] = useState(false);
+
+    let errorAlert = (<Alert className="px-3 py-1 bg-red-100 border-2 border-red-500 border-opacity-25 rounded-md">
+                        <div className="flex flex-row justify-between w-0">
+                          <p className="text-sm text-red-500">{errorMessage}</p> 
+                          <Button className="text-red-500" onClick={() => setShowError(false)}>x</Button>
+                        </div>                                               
+                    </Alert>);
 
     function handleChange(e){
         setData((data) => 
@@ -30,6 +40,7 @@ const LoginForm = () => {
             navigate('/vault', { state: response.data});
         }).catch((error) => {
             setErrorMessage(error.response.data);
+            setShowError(showError => !showError);
             console.log(error.response.data);
         })
     }
@@ -43,21 +54,18 @@ const LoginForm = () => {
     //     });
     //     toast.dismiss(toast_id);
     //   }
-      const error_toast = (message) => {
-        const toast_id = 0;
-        toast.error(message);
-        toast.dismiss(toast_id);
-      }
+    //   const error_toast = (message) => {
+    //     const toast_id = 0;
+    //     toast.error(message);
+    //     toast.dismiss(toast_id);
+    //   }
 
     return(
         <div className="col-span-3 col-start-2 mb-4 border -mt-52 h-60 sm:col-start-3 sm:col-span-6 md:col-start-4 xl:col-start-5 xl:col-span-4">
             <div className="p-4 bg-white border rounded-md border-gray">
-                { 
-                    errorMessage && error_toast(errorMessage)
-                }
-                {/* { 
-                    successMessage && success_toast(successMessage)
-                } */}
+                    { 
+                        errorMessage && showError ? errorAlert : '' 
+                    }
                 <form onSubmit={handleSubmit}>
                     <label className="label-style">Email Address</label>
                     <input className="input-style" name="email" 

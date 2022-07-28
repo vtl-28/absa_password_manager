@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import copy from 'copy-to-clipboard';
+import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
 
 function ApplicationPasswordCard({pass, handleDelete}){
     const { _id, application_name, username, password} = pass;
@@ -44,6 +46,7 @@ export default function Sessions(){
         const [ openList, setOpenList ] = useState(false);
         const [ openAddItem, setOpenAddItem ] = useState(true);
         const [id, setId] = useState(""); 
+        const [ showSuccess, setShowSuccess ] = useState(false);
        
         function handleOpenModal(e){
             setId(e.target.name);
@@ -76,21 +79,28 @@ export default function Sessions(){
                 setOpenList(openList => !openList);
                 setOpenAddItem(openAddItem => !openAddItem);
                 setSuccessMessage("Application password successfully created");
+                setShowSuccess(showSuccess => !showSuccess);
             }).catch(error => {
                 console.log(error.response.data);
             })  
         }
-    
-        const success_toast = (message) => {
-            const toast_id = 1;
-            toast.success(message, {
-                onClose: () => {
-                    //navigate('/vault');
-                    handleCloseModal();
-                }
-            });
-            toast.dismiss(toast_id);
-          }
+        let successAlert = (<Alert className="px-3 py-1 bg-green-100 border-2 border-green-500 border-opacity-25 rounded-md">
+                        <div className="flex flex-row justify-between w-0">
+                            <p className="text-sm text-green-500">{successMessage}</p> 
+                            <Button className="text-green-500" onClick={() => setShowSuccess(false)}>x</Button>
+                        </div>                                               
+                    </Alert>
+                    );
+        // const success_toast = (message) => {
+        //     const toast_id = 1;
+        //     toast.success(message, {
+        //         onClose: () => {
+        //             //navigate('/vault');
+        //             handleCloseModal();
+        //         }
+        //     });
+        //     toast.dismiss(toast_id);
+        //   }
         
         const displayApplication = (
                                 <ul>
@@ -122,9 +132,9 @@ export default function Sessions(){
                  } 
                 { open ? (
                     <div>
-                        <form onSubmit={handleSubmit} className="px-6 pt-4 pb-4 lg:px-8 sm:pb-6 xl:pb-8"> 
+                        <form onSubmit={handleSubmit} className="px-3 pt-4 pb-4 lg:px-8 sm:pb-6 xl:pb-8"> 
                             { 
-                                successMessage && success_toast(successMessage)
+                               successMessage && showSuccess ? successAlert : ''
                             }
                             <select disabled value={applicationPassword.department} className="w-full mb-2" name="department" onChange={handleChange}>
                                 <option value="D_Absa">D_Absa</option>
@@ -139,8 +149,10 @@ export default function Sessions(){
                             <label className="label-style">Password</label>
                             <input onChange={handleChange} value={applicationPassword.application_password} className="input-style" name="application_password" type="password" />
                             <div className="flex flex-row justify-between mt-4">
-                                <button className="btn-submit w-28" type="submit"><a>Save</a></button>
-                               <button onClick={handleCloseModal} className="btn-cancel w-28"><a>Cancel</a></button>
+                                <button className="btn-submit w-28" type="submit">Save</button>
+                                <button onClick={handleCloseModal} className="btn-cancel w-28">
+                                    { successMessage ? 'Back' : 'Cancel'}
+                                </button>
                             </div>
                         </form>
                     </div>
