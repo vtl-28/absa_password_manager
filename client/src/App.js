@@ -15,6 +15,7 @@ import Sessions from './components/Sessions';
 import Sap from './components/Sap';
 import Client from './components/Client';
 import UserAccount from './components/UserAccount';
+import NoMatchRoute from './components/NoMatchRoute';
 
 const App = () =>{
     return (
@@ -28,8 +29,16 @@ const App = () =>{
             <Route path="sessions" element={<Sessions />}/>
             <Route path="sap" element={<Sap />}/>
             <Route path="client" element={<Client />}/>
+            <Route
+              path="*"
+              element={<NoMatchRoute />}
+            />
           </Route>
           <Route path="account/:id" element={<UserAccount />}/>
+          <Route
+              path="*"
+              element={<NoMatchRoute />}
+            />
         </Routes>
         <ToastContainer 
           position="top-center"
