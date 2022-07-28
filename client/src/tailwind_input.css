@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn-submit {
+      @apply p-1 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700;
+    }
+    .btn-cancel {
+        @apply p-1 font-semibold border-2 border-gray-300 border-opacity-75 rounded-md hover:bg-gray-400 opacity-60;
+      }
+    .btn-add-item {
+        @apply w-24 p-1 text-sm font-semibold text-red-600 border rounded-md bg-gray-50 hover:text-white hover:bg-red-700 sm:w-36 sm:text-base;
+    }
+    .label-style {
+        @apply text-sm font-semibold;
+    }
+    .input-style {
+        @apply w-full px-0 py-0 mb-2 border-2 border-black border-opacity-10;
+    }
+  }
