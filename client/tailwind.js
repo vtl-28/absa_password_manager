@@ -1,6 +1,7 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx}",
-  "./node_modules/flowbite/**/*.js" ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}",
+  "./node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+  './src/**/*.{html,js}', './node_modules/tw-elements/dist/js/**/*.js' ],
   presets: [],
   darkMode: 'media', // or 'class'
   theme: {
@@ -953,6 +954,7 @@ module.exports = {
     'disabled',
   ],
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('tw-elements/dist/plugin')
   ],
 }

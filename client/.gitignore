@@ -41,6 +41,14 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+node_modules/.bin
+node_modules/accepts/
+node_modules/acorn
+node_modules/.bin
+node_modules/.bin
+node_modules/.bin
+node_modules/.bin
+
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
