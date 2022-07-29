@@ -6,7 +6,8 @@ const user_schema = Schema({
         type: String,
         required: true,
         lowercase: true,
-        unique: true
+        unique: true,
+        trim: true
     },
     name: {
         type: String,
@@ -16,6 +17,7 @@ const user_schema = Schema({
     salt: String,
     master_password_hint: {
         type: String,
+        trim: true
     },
     application_passwords: [{
         type: Schema.Types.ObjectId,

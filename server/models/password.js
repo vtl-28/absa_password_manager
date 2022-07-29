@@ -14,8 +14,10 @@ const password_schema = Schema({
         type: String,
         trim: true
     },
-    hash: String,
-    salt: String,
+    application_password: {
+        type: String,
+        trim: true
+    }
 });
 
 module.exports = mongoose.model('Password', password_schema);
