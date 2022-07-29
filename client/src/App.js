@@ -1,15 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import './tailwind_output.css';
-import 'flowbite';
-import './App.css';
 import Home from './components/Home';
 import Register from './components/Register';
 import PasswordHint from './components/PasswordHint';
 import Vault from "./components/Vault";
-import FlashMessage from 'react-flash-message';
-import { ToastContainer, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
 import DAbsa from './components/DAbsa'
 import Sessions from './components/Sessions';
 import Sap from './components/Sap';
@@ -40,13 +35,6 @@ const App = () =>{
               element={<NoMatchRoute />}
             />
         </Routes>
-        <ToastContainer 
-          position="top-center"
-          autoClose={1000}
-          transition={Zoom}
-          hideProgressBar={true}
-          limit={1}
-        />
       </div>
     )
 }
