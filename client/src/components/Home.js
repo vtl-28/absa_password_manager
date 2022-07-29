@@ -4,6 +4,7 @@ import logo from '../assets/absa_logo.jpg';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
+import Modal from 'react-bootstrap/Modal';
 // import { toast } from 'react-toastify';
 // import { Card, Button } from 'flowbite-react';
 
@@ -93,7 +94,7 @@ const LoginForm = () => {
 
 function Home(){
     return(
-        <div className="w-screen h-screen pt-16 bg-red-400">
+        <div className="w-screen h-screen pt-16" style={{backgroundColor: "#F0325A"}}>
             <div className="container w-full h-full px-12 mx-auto">
                 <div className="grid h-full grid-cols-5 grid-rows-3 sm:grid-cols-10 md:grid-cols-12">
                     <div className="flex items-start h-16 col-span-3 col-start-2 sm:col-start-3 sm:col-span-6 md:col-start-4 md:justify-center justify-evenly">

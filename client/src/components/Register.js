@@ -39,13 +39,13 @@ const RegisterForm = () => {
     //   toast.dismiss(toast_id);
     // }
     let errorAlert = (<Alert className="px-3 py-1 bg-red-100 border-2 border-red-500 border-opacity-25 rounded-md">
-                        <div className="flex flex-row justify-between w-0">
+                        <div className="flex flex-row justify-between">
                           <p className="text-sm text-red-500">{errorMessage}</p> 
                           <Button className="text-red-500" onClick={() => setShowError(false)}>x</Button>
                         </div>                                               
                     </Alert>);
     let successAlert = (<Alert className="px-3 py-1 bg-green-100 border-2 border-green-500 border-opacity-25 rounded-md">
-                          <div className="flex flex-row justify-between w-0">
+                          <div className="flex flex-row justify-between">
                             <p className="text-sm text-green-500">{successMessage}</p> 
                             <Button className="text-green-500" onClick={() => setShowSuccess(false)}>x</Button>
                           </div>                                               
@@ -145,7 +145,7 @@ const RegisterForm = () => {
 
 function Register(){
     return (
-        <div className="w-screen h-screen py-8 bg-red-400">
+        <div className="w-screen h-screen py-8" style={{backgroundColor: "#F0325A"}}>
             <div className="container w-full h-full px-12 mx-auto">
                 <div className="grid h-full grid-cols-12 grid-rows-6">
                     <div className="flex items-start justify-center h-8 col-span-6 col-start-4 sm:col-start-5 sm:col-span-4">

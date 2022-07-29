@@ -128,21 +128,15 @@ function Header(){
     }
 
     return (
-        <div className="flex flex-row justify-between">
-            <h1 className="text-2xl">Welcome, {user.name}</h1>
-            <div className="mt-1">
-                <Link to={`/account/${user._id}`} className="font-normal">My account</Link>
-                <button onClick={handleLogout} className="ml-6 font-normal">Log out</button>
+       <div className="h-64 py-4" style={{backgroundColor: "#F0325A"}}>
+            <div className="container flex flex-row justify-between px-12 mx-auto">
+                <h1 className="text-2xl">Welcome, {user.name}</h1>
+                <div className="mt-1">
+                    <Link to={`/account/${user._id}`} className="font-normal">My account</Link>
+                    <button onClick={handleLogout} className="ml-6 font-normal">Log out</button>
+                </div>
             </div>
-             {/* <Dropdown drop="down">
-                <Dropdown.Toggle id="dropdown-basic" split />
-            
-                <Dropdown.Menu align="end">
-                    <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><Link to={`/account/${user._id}`}>My account</Link></Dropdown.Item>
-                    <Dropdown.Item as="a" className="text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><button onClick={handleLogout}>Log out</button></Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown> */}
-        </div>
+       </div>
     )
 }
 
@@ -190,10 +184,11 @@ function Vault(){
       }
 
     return (
-        <div className="w-screen h-screen py-8">
-            <div className="container w-9/12 h-full mx-auto">
-                <Header />
-                <div className="grid h-full grid-cols-10 grid-rows-4 gap-10 pt-10">
+        <div className="w-screen h-screen" style={{overflowY: 'hidden'}}>
+            <Header />
+            <div className="container w-9/12 h-full mx-auto mt-6">
+                {/* <Header /> */}
+                <div className="grid h-full grid-cols-10 grid-rows-4 gap-10">
                     <div className="flex flex-col col-span-3 row-span-3 bg-white border border-opacity-100 rounded border-gray">
                         <div className="flex items-center justify-center h-12 bg-gray-100 bg-opacity-50 border-b-2 border-gray-300">
                             <h1 className="font-semibold uppercase ">Filters</h1>

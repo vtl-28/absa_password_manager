@@ -25,13 +25,13 @@ function ApplicationPasswordCard({pass, handleDelete}){
         <li key={_id}>
             <a className="grid grid-cols-12 rounded-md hover:bg-gray-100" href="#">
                 <div className="col-span-4 col-start-2">
-                    <h3>{username}</h3>
+                    <h3 className="text-red-600">{username}</h3>
                     <small>{application_name}</small>
                 </div>
                 <div className="flex justify-between w-9/12 col-span-10 col-start-6">
                     <button onClick={ copyUsernameToClipboard } className="text-sm">Copy username</button>
                     <button  onClick={ copyPasswordToClipboard } className="text-sm">Copy password</button>
-                    <button name={_id} onClick={handleDelete} className="text-sm">Delete</button>
+                    <button name={_id} onClick={handleDelete} className="text-sm text-red-600">Delete</button>
                 </div>
             </a>
         </li>
@@ -86,7 +86,7 @@ export default function Sap(){
      })  
  }
  let successAlert = (<Alert className="px-3 py-1 bg-green-100 border-2 border-green-500 border-opacity-25 rounded-md">
-                        <div className="flex flex-row justify-between w-0">
+                        <div className="flex flex-row justify-between">
                             <p className="text-sm text-green-500">{successMessage}</p> 
                             <Button className="text-green-500" onClick={() => setShowSuccess(false)}>x</Button>
                         </div>                                               

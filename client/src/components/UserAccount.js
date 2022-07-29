@@ -28,13 +28,13 @@ function UserAccout(){
     }, [])
 
     let errorAlert = (<Alert className="px-3 py-1 bg-red-100 border-2 border-red-500 border-opacity-25 rounded-md">
-                        <div className="flex flex-row justify-between w-0">
+                        <div className="flex flex-row justify-between">
                           <p className="text-sm text-red-500">{errorMessage}</p> 
                           <Button className="text-red-500" onClick={() => setShowError(false)}>x</Button>
                         </div>                                               
                     </Alert>);
     let successAlert = (<Alert className="px-3 py-1 bg-green-100 border-2 border-green-500 border-opacity-25 rounded-md">
-                          <div className="flex flex-row justify-between w-0">
+                          <div className="flex flex-row justify-between">
                             <p className="text-sm text-green-500">{successMessage}</p> 
                             <Button className="text-green-500" onClick={() => setShowSuccess(false)}>x</Button>
                           </div>                                               
@@ -80,7 +80,7 @@ function UserAccout(){
     //   }
 
     return(
-        <div className="w-screen h-screen py-8 ">
+        <div className="w-screen h-screen py-8 "  style={{backgroundColor: "#F0325A"}}>
             <div className="container w-9/12 h-full mx-auto">
                 <div className="grid h-full grid-cols-12 grid-rows-4">
                     <div className="flex items-start justify-center h-8 col-span-6 col-start-4 mt-6 sm:col-start-5 sm:col-span-4">
