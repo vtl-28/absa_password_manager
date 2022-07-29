@@ -10,49 +10,47 @@ module.exports = {
     },
     //handler to retrieve user master password hint
     retrieve_password_hint: (req, res, next) => {
-        // let user_email = Object.keys(req.body).toString();
-        // User.findOne({email: user_email})
-        // .then(user => {
-        //     console.log(`user found ${user}`);
-        // }).then(error => {
-        //     res.status(404).send(error)
-        // })
+        let user_email = Object.keys(req.body).toString();
+        User.findOne({email: user_email})
+        .then(user => {
+            res.status(200).send(`Your master password hint is ${user.master_password_hint}`);     
+               
+        }).catch(error => {
+            console.log(`Failed to send master password hint to email because ${error.message}`);
+            res.status(404).send(`Failed to send master password hint to email because ${error.message}`)
+           
+        });
 
-        
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            let messages = errors.array().map(e => e.msg);
-            req.skip = true;
-            res.status(400).send(messages.toString());
-            console.log(messages);
-
-            // req.flash('retrieve_password_hint_errors', messages);
-            // res.locals.redirect = '/password_hint';
-            // next();
-            //return res.status(400).json({ errors: errors.array() });
-          }else{
-            let user_email = Object.keys(req.body).toString();
-            User.findOne({email: user_email}).then(user => {
-                email_helper.send_email({
-                    from: 'test@gmail.com',
-                    to: user.email,
-                    subject: 'Master password hint',
-                    text: `Your master password hint is ${user.master_password_hint}`
-                });
+        // const errors = validationResult(req);
+        // if(!errors.isEmpty()) {
+        //     let messages = errors.array().map(e => e.msg);
+        //     req.skip = true;
+        //     res.status(400).send(messages.toString());
+        //     console.log(messages);
+        //   }else{
+        //     let user_email = Object.keys(req.body).toString();
+        //     User.findOne({email: user_email}).then(user => {
+        //         if(user.master_password_hint === ''){
+        //             res.status(200).send(`You unfortunately did not set a master password hint`); 
+        //         }
+        //         res.status(200).send(`Your master password hint is ${user.master_password_hint}`);
                 
-                res.status(200).send("Master password hint sent to your email");
-                console.log("Master password hint sent to your email");
-                // req.flash('success', 'Master password hint sent to your email');
-                // res.locals.redirect = '/';
-                // next();
-            }).catch(error => {
-                console.log(`Failed to send master password hint to email because ${error.message}`);
-                res.status(404).send(`Failed to send master password hint to email because ${error.message}`)
-                // req.flash('error', `Failed to send master password hint to email because ${error}`);
-                // res.locals.redirect = '/password_hint';
-                // next();
-            });
-          }
+        //         // email_helper.send_email({
+        //         //     from: 'test@gmail.com',
+        //         //     to: user.email,
+        //         //     subject: 'Master password hint',
+        //         //     text: `Your master password hint is ${user.master_password_hint}`
+        //         // });
+                
+                
+        //         console.log(`user found ${user.master_password_hint}`);
+               
+        //     }).catch(error => {
+        //         console.log(`Failed to send master password hint to email because ${error.message}`);
+        //         res.status(404).send(`Failed to send master password hint to email because ${error.message}`)
+               
+        //     });
+        //   }
     },
     //handler to redirect to appropriate page
     redirect_password_hint_view: (req, res, next) => {
