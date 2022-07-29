@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import copy from 'copy-to-clipboard';
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
@@ -10,12 +9,11 @@ function ApplicationPasswordCard({pass, handleDelete}){
 
     const copyUsernameToClipboard = () => {
         copy(username);
-        alert(`Copied! ${username}`);
+        alert(`Copied!`);
     };
     const copyPasswordToClipboard = () => {
         axios.get(`http://localhost:3000/decrypt_password/${password}`)
         .then(response => {
-            console.log(response.data);
             copy(response.data);
         });
         alert(`Copied!`);
@@ -39,7 +37,6 @@ function ApplicationPasswordCard({pass, handleDelete}){
 }
 
 export default function Client(){
-   //const [ pass, setPass ] = useState([]);
  const [ applicationPassword, setApplicationPassword ] = useState({ department: "Client", application_name: "", username: "",application_password: ""});
  const [ successMessage, setSuccessMessage ] = useState('');
  const [ app, setApp ] = useState([]);
@@ -74,15 +71,12 @@ export default function Client(){
      e.preventDefault();
      axios.post("http://localhost:3000/create_password", applicationPassword)
      .then(response => {
-         console.log(response.data);
          setApp([...app, response.data ]);
-         console.log(app)
          setOpenList(openList => !openList);
          setOpenAddItem(openAddItem => !openAddItem);
          setSuccessMessage("Application password successfully created");
          setShowSuccess(showSuccess => !showSuccess);
      }).catch(error => {
-         console.log(error.response.data);
      })  
  }
 
@@ -94,29 +88,7 @@ export default function Client(){
                             </Alert>
                             );
 
-//  const success_toast = (message) => {
-//      const toast_id = 1;
-//      toast.success(message, {
-//          onClose: () => {
-//              //navigate('/vault');
-//              handleCloseModal();
-//          }
-//      });
-//      toast.dismiss(toast_id);
-//    }
 
- // useEffect(() => {
- //     axios.get('http://localhost:3000/find_password').then((response) => {
- //         //console.log(response.data);
- //         setPass(response.data);
- //         console.log(pass);
-         
- //     }).catch((error) => {
- //         console.log(error.response.data);
- //     })
- // }, [])
-//    const applicationpassword = Object.values(applicationPassword);
- 
  const displayApplication = (
                          <ul>
                              {
