@@ -38,19 +38,14 @@ app.get('/user/:id', fetch_user);
 //route to access page to edit user details
 app.get('/account/:id', fetch_account);
 //route to update details of existing user
-app.put('/account/:id',update_user);
-
-// //route to access page to retrieve user master password hint
-// app.get('/password_hint', password_hint_view);
-// //route to retrieve user master password hint
-// app.post('/password_hint', check('email').not().isEmpty().withMessage(
-//     'Email is required').normalizeEmail().isEmail()
-//     .withMessage('Must be a valid email').custom((value, {req}) => {
-//         return User.findOne({email: value}).then(user => {
-//             if(!user){
-//                 throw new Error('User does not exist');
-//             }
-//         });
-//     }),retrieve_password_hint, redirect_user_view);
+app.put('/account/:id', check('email').not().isEmpty().withMessage(
+    'Email is required').normalizeEmail().isEmail()
+    .withMessage('Must be a valid email').custom((value, {req}) => {
+        return User.findOne({email: value}).then(user => {
+            if(user){
+                throw new Error('Email already in use');
+            }
+        });
+    }),update_user);
 
 module.exports = app;

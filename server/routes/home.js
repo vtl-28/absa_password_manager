@@ -22,12 +22,7 @@ function is_auth(req, res, next){
 
 //route to access home page
 app.get('/', index);
-//route authenticate and login registered user
-// app.post('/login', passport.authenticate('local', {
-//     failureRedirect: '/',
-//     successRedirect: '/vault_landing_page',
-//     failureFlash: true
-// }));
+
 app.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if(err) throw err;
